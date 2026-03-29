@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { useSteamiStore } from '@/stores/steami-store';
 import { Link } from 'react-router-dom';
 import { Trash2, ExternalLink, BookOpen, Sparkles, BarChart3, Activity, TrendingUp, Zap } from 'lucide-react';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function DashboardPage() {
   const { diary, recommendations, removeDiaryEntry, clearDiary } = useSteamiStore();
