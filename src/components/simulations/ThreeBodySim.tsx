@@ -135,7 +135,7 @@ export function ThreeBodySim() {
         }
         trails[i].geometry.setDrawRange(0, trailPositions[i].length);
         trails[i].geometry.attributes.position.needsUpdate = true;
-        trails[i].material.opacity = 0.3 + 0.05 * (trailPositions[i].length / TRAIL_LEN);
+        (trails[i].material as THREE.LineBasicMaterial).opacity = 0.3 + 0.05 * (trailPositions[i].length / TRAIL_LEN);
       });
     }
 
