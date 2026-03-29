@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { useSteamiStore } from '@/stores/steami-store';
 import { Link } from 'react-router-dom';
 import { Trash2, ExternalLink, BookOpen, Sparkles, BarChart3, Activity, TrendingUp, Zap } from 'lucide-react';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function DashboardPage() {
   const { diary, recommendations, removeDiaryEntry, clearDiary } = useSteamiStore();
@@ -168,30 +169,75 @@ export default function DashboardPage() {
           <div>
             <div className="steami-section-label mb-3">📊 INTELLIGENCE PROFILE</div>
             <div className="glass-card relative p-5 overflow-hidden">
-              <div className="space-y-3">
-                {[
-                  { label: 'Research Depth', value: Math.min(100, stats.totalNotes * 15), color: 'var(--steami-cyan-hex, #63b3ed)' },
-                  { label: 'Field Diversity', value: Math.min(100, stats.fields * 20), color: 'var(--steami-gold-hex, #e8b84b)' },
-                  { label: 'Engagement Score', value: Math.min(100, (stats.articles + stats.explainers) * 12), color: '#26de81' },
-                ].map((metric) => (
-                  <div key={metric.label}>
-                    <div className="flex justify-between mb-1">
-                      <span className="font-mono text-[9px] text-muted-foreground">{metric.label}</span>
-                      <span className="font-mono text-[10px] text-foreground">{metric.value}%</span>
-                    </div>
-                    <div className="w-full h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${metric.value}%` }}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="h-full rounded-full"
-                        style={{ background: metric.color }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-3 border-t border-steami-cyan/10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+              >
+                <ResponsiveContainer width="100%" height={240}>
+                  <RadarChart
+                    cx="50%"
+                    cy="50%"
+                    outerRadius="70%"
+                    data={[
+                      { metric: 'Research Depth', value: Math.min(100, stats.totalNotes * 15), fullMark: 100 },
+                      { metric: 'Field Diversity', value: Math.min(100, stats.fields * 20), fullMark: 100 },
+                      { metric: 'Engagement', value: Math.min(100, (stats.articles + stats.explainers) * 12), fullMark: 100 },
+                      { metric: 'Articles', value: Math.min(100, stats.articles * 25), fullMark: 100 },
+                      { metric: 'Explainers', value: Math.min(100, stats.explainers * 25), fullMark: 100 },
+                      { metric: 'Consistency', value: Math.min(100, stats.totalNotes * 10), fullMark: 100 },
+                    ]}
+                  >
+                    <PolarGrid
+                      stroke="hsl(207 72% 65% / 0.12)"
+                      strokeWidth={0.5}
+                    />
+                    <PolarAngleAxis
+                      dataKey="metric"
+                      tick={{ fill: 'hsl(210 25% 55%)', fontSize: 9, fontFamily: 'var(--font-mono)' }}
+                    />
+                    <PolarRadiusAxis
+                      angle={90}
+                      domain={[0, 100]}
+                      tick={false}
+                      axisLine={false}
+                    />
+                    <Radar
+                      name="Profile"
+                      dataKey="value"
+                      stroke="hsl(207 72% 65%)"
+                      strokeWidth={2}
+                      fill="hsl(207 72% 65%)"
+                      fillOpacity={0.15}
+                      dot={{
+                        r: 3,
+                        fill: 'hsl(207 72% 65%)',
+                        stroke: 'hsl(207 72% 85%)',
+                        strokeWidth: 1,
+                      }}
+                      activeDot={{
+                        r: 5,
+                        fill: 'hsl(42 75% 60%)',
+                        stroke: 'hsl(42 75% 70%)',
+                        strokeWidth: 2,
+                      }}
+                    />
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (!active || !payload?.length) return null;
+                        const data = payload[0].payload;
+                        return (
+                          <div className="glass-card relative px-3 py-2 overflow-hidden !border-steami-cyan/30">
+                            <p className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">{data.metric}</p>
+                            <p className="font-mono text-sm font-bold text-foreground">{data.value}%</p>
+                          </div>
+                        );
+                      }}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </motion.div>
+              <div className="mt-2 pt-3 border-t border-steami-cyan/10">
                 <div className="flex items-center gap-2 text-steami-cyan font-mono text-[9px]">
                   <TrendingUp className="w-3 h-3" />
                   {stats.totalNotes > 0
