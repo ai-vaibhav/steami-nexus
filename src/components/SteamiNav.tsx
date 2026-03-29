@@ -4,6 +4,7 @@ import { useSteamiStore } from '@/stores/steami-store';
 const navLinks = [
   { path: '/', label: 'EXPLAINERS' },
   { path: '/research', label: 'RESEARCH' },
+  { path: '/simulations', label: 'SIMULATIONS' },
   { path: '/dashboard', label: 'DASHBOARD' },
 ];
 
