@@ -273,3 +273,101 @@
   0%, 100% { box-shadow: 0 0 5px rgba(99, 179, 237, 0.2); }
   50% { box-shadow: 0 0 20px rgba(99, 179, 237, 0.4); }
 }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes glow-border {
+  0%, 100% { border-color: rgba(99, 179, 237, 0.2); }
+  50% { border-color: rgba(99, 179, 237, 0.45); }
+}
+
+/* ── Micro-interaction utilities ──────────────────────────────── */
+.glass-card {
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1),
+              border-color 0.25s ease,
+              box-shadow 0.3s ease,
+              background 0.25s ease;
+  will-change: transform;
+}
+
+.glass-card:hover {
+  transform: translateY(-3px) scale(1.008);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+              0 0 30px rgba(99, 179, 237, 0.08),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-card:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: 0.08s;
+}
+
+.steami-btn {
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform, box-shadow;
+}
+
+.steami-btn:active {
+  transform: scale(0.96);
+  transition-duration: 0.08s;
+}
+
+.steami-badge {
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.steami-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Shimmer loading effect */
+.shimmer {
+  background: linear-gradient(90deg,
+    rgba(99, 179, 237, 0.04) 25%,
+    rgba(99, 179, 237, 0.1) 50%,
+    rgba(99, 179, 237, 0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Focus glow for interactive elements */
+.steami-btn:focus-visible,
+.glass-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.5),
+              0 0 20px rgba(99, 179, 237, 0.15);
+}
+
+/* Smooth link underline animation */
+.nav-link-animated {
+  position: relative;
+}
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: hsl(var(--steami-cyan));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+.nav-link-animated:hover::after,
+.nav-link-animated.active::after {
+  transform: scaleX(1);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .glass-card,
+  .steami-btn,
+  .steami-badge {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
