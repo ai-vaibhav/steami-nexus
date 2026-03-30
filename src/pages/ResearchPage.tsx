@@ -4,12 +4,12 @@ import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Field, type Article } from '@/data/research-articles';
 import { useSteamiStore } from '@/stores/steami-store';
+import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { X, ChevronLeft, ChevronRight, BookOpen, Network, FileText, Sparkles } from 'lucide-react';
 
 export default function ResearchPage() {
   const [activeField, setActiveField] = useState<Field>('PHYSICS');
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [scrollPos, setScrollPos] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const diary = useSteamiStore((s) => s.diary);
   const recommendations = useSteamiStore((s) => s.recommendations);
@@ -26,18 +26,23 @@ export default function ResearchPage() {
   return (
     <SteamiLayout>
       {/* Page Header */}
-      <div className="mb-6">
+      <motion.div className="mb-6" variants={fadeInUp} initial="hidden" animate="visible">
         <h1 className="steami-heading text-3xl md:text-4xl mb-3">📚 Research Articles</h1>
         <p className="text-[13px] font-light text-muted-foreground max-w-xl leading-relaxed">
           Deep research environment across 11 scientific fields. Click articles for full study with knowledge tools.
         </p>
-      </div>
+      </motion.div>
 
       {/* Field Selector */}
-      <div className="relative mb-6">
+      <motion.div
+        className="relative mb-6"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15, duration: 0.4 }}
+      >
         <button
           onClick={() => scrollFields(-1)}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-steami-cyan"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-steami-cyan transition-colors"
           style={{ background: 'rgba(3, 8, 20, 0.8)' }}
         >
           <ChevronLeft className="w-4 h-4" />
@@ -47,11 +52,16 @@ export default function ResearchPage() {
           className="flex gap-2 overflow-x-auto scrollbar-hide py-2 px-10"
           style={{ scrollbarWidth: 'none' }}
         >
-          {FIELDS.map((field) => (
-            <button
+          {FIELDS.map((field, i) => (
+            <motion.button
               key={field}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 + i * 0.03, duration: 0.3 }}
+              whileHover={{ scale: 1.05, y: -1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveField(field)}
-              className={`shrink-0 font-mono text-[9px] tracking-wider uppercase px-4 py-2.5 rounded-lg transition-all flex items-center gap-2 ${
+              className={`shrink-0 font-mono text-[9px] tracking-wider uppercase px-4 py-2.5 rounded-lg transition-colors flex items-center gap-2 ${
                 activeField === field
                   ? 'text-steami-gold border-steami-gold/50'
                   : 'text-muted-foreground hover:text-foreground'
@@ -64,31 +74,40 @@ export default function ResearchPage() {
             >
               <span>{FIELD_ICONS[field]}</span>
               {field}
-            </button>
+            </motion.button>
           ))}
         </div>
         <button
           onClick={() => scrollFields(1)}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-steami-cyan"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-steami-cyan transition-colors"
           style={{ background: 'rgba(3, 8, 20, 0.8)' }}
         >
           <ChevronRight className="w-4 h-4" />
         </button>
-      </div>
+      </motion.div>
 
       {/* Article Cards */}
       <div className="steami-section-label">{FIELD_ICONS[activeField]} {activeField} — {filtered.length} ARTICLES</div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        key={activeField}
+      >
         <AnimatePresence mode="popLayout">
           {filtered.map((article, idx) => (
             <motion.div
               key={article.id}
               layout
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ delay: idx * 0.05 }}
-              className="glass-card relative p-5 cursor-pointer hover:translate-y-[-2px] transition-transform overflow-hidden"
+              custom={idx}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+              whileHover={cardHover}
+              whileTap={cardTap}
+              className="glass-card relative p-5 cursor-pointer overflow-hidden"
               onClick={() => setSelectedArticle(article)}
             >
               <div className="flex items-center gap-2 mb-3">
@@ -111,23 +130,25 @@ export default function ResearchPage() {
             No articles in this field yet. More coming soon.
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Full Article Modal */}
       <AnimatePresence>
         {selectedArticle && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="fixed inset-0 z-[200] flex p-4"
             style={{ background: 'rgba(2, 8, 18, 0.85)', backdropFilter: 'blur(8px)' }}
             onClick={() => setSelectedArticle(null)}
           >
             <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="flex flex-1 max-w-[1100px] mx-auto gap-4 max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
@@ -157,14 +178,27 @@ export default function ResearchPage() {
                     <span className={`steami-badge steami-badge-${FIELD_COLORS[selectedArticle.field]}`}>{selectedArticle.field}</span>
                     <span className="font-mono text-[9px] text-muted-foreground">{selectedArticle.readTime}</span>
                   </div>
-                  <button onClick={() => setSelectedArticle(null)} className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-steami-red transition-colors" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(10,25,55,0.4)' }}>
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setSelectedArticle(null)}
+                    className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-steami-red transition-colors"
+                    style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(10,25,55,0.4)' }}
+                  >
                     <X className="w-4 h-4" />
-                  </button>
+                  </motion.button>
                 </div>
 
                 {/* Article Body */}
                 <div className="p-7">
-                  <h2 className="steami-heading text-2xl mb-2">{selectedArticle.title}</h2>
+                  <motion.h2
+                    className="steami-heading text-2xl mb-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                  >
+                    {selectedArticle.title}
+                  </motion.h2>
                   <div className="flex items-center gap-3 mb-5 font-mono text-[10px] text-muted-foreground">
                     <span>{selectedArticle.author}</span>
                     <span>·</span>
@@ -172,61 +206,108 @@ export default function ResearchPage() {
                   </div>
 
                   {/* Abstract */}
-                  <div className="text-sm font-light leading-relaxed text-muted-foreground mb-6 pl-5 border-l-2 border-steami-gold/50" style={{ fontStyle: 'italic', color: '#8aacca' }}>
+                  <motion.div
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-sm font-light leading-relaxed text-muted-foreground mb-6 pl-5 border-l-2 border-steami-gold/50"
+                    style={{ fontStyle: 'italic', color: '#8aacca' }}
+                  >
                     {selectedArticle.abstract}
-                  </div>
+                  </motion.div>
 
                   {/* Content */}
                   {selectedArticle.content.map((para, i) => (
-                    <p key={i} className="text-[13px] font-light leading-relaxed text-foreground/80 mb-5">{para}</p>
+                    <motion.p
+                      key={i}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 + i * 0.05 }}
+                      className="text-[13px] font-light leading-relaxed text-foreground/80 mb-5"
+                    >
+                      {para}
+                    </motion.p>
                   ))}
 
                   {/* Quotes */}
                   {selectedArticle.quotes.map((quote, i) => (
-                    <blockquote key={i} className="my-6 p-4 rounded-lg" style={{ background: 'rgba(232, 184, 75, 0.06)', borderLeft: '3px solid hsl(var(--steami-gold))' }}>
+                    <motion.blockquote
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.97 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 + i * 0.08 }}
+                      className="my-6 p-4 rounded-lg"
+                      style={{ background: 'rgba(232, 184, 75, 0.06)', borderLeft: '3px solid hsl(var(--steami-gold))' }}
+                    >
                       <p className="text-sm font-light leading-relaxed text-steami-gold2 italic">{quote}</p>
-                    </blockquote>
+                    </motion.blockquote>
                   ))}
 
                   {/* Key Findings */}
-                  <div className="rounded-xl p-5 mt-6" style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="rounded-xl p-5 mt-6"
+                    style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}
+                  >
                     <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
                       <Sparkles className="w-3 h-3" /> KEY FINDINGS
                     </div>
                     {selectedArticle.keyFindings.map((f, i) => (
-                      <div key={i} className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0">
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.45 + i * 0.05 }}
+                        className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0"
+                      >
                         <span className="text-steami-cyan text-xs mt-0.5">◆</span>
                         <span className="font-mono text-[11px] text-muted-foreground leading-relaxed">{f}</span>
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </div>
               </div>
 
               {/* Right Sidebar */}
-              <div className="w-72 hidden lg:flex flex-col gap-3 overflow-y-auto">
+              <motion.div
+                className="w-72 hidden lg:flex flex-col gap-3 overflow-y-auto"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.4 }}
+              >
                 {/* Knowledge Map */}
                 <div className="rounded-xl p-4" style={{ background: 'rgba(5, 14, 32, 0.88)', border: '1px solid rgba(99, 179, 237, 0.14)' }}>
                   <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
                     <Network className="w-3 h-3" /> KNOWLEDGE MAP
                   </div>
                   <div className="flex flex-wrap gap-1.5">
-                    {selectedArticle.relatedTopics.map((topic) => (
-                      <span key={topic} className="steami-badge steami-badge-cyan text-[8px]">{topic}</span>
+                    {selectedArticle.relatedTopics.map((topic, i) => (
+                      <motion.span
+                        key={topic}
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3 + i * 0.04, type: 'spring', stiffness: 260, damping: 20 }}
+                        className="steami-badge steami-badge-cyan text-[8px]"
+                      >
+                        {topic}
+                      </motion.span>
                     ))}
                     <span className="steami-badge steami-badge-gold text-[8px]">{selectedArticle.field}</span>
                   </div>
                   <div className="mt-3 pt-3 border-t border-steami-cyan/10">
                     <div className="font-mono text-[9px] text-muted-foreground mb-2">RELATED ARTICLES</div>
                     {articles.filter(a => a.id !== selectedArticle.id && a.field === selectedArticle.field).slice(0, 2).map(a => (
-                      <button
+                      <motion.button
                         key={a.id}
+                        whileHover={{ x: 3, backgroundColor: 'rgba(99, 179, 237, 0.08)' }}
                         onClick={() => setSelectedArticle(a)}
-                        className="block w-full text-left p-2 rounded-md mb-1 hover:bg-steami-cyan/5 transition-colors"
+                        className="block w-full text-left p-2 rounded-md mb-1 transition-colors"
                       >
                         <div className="font-serif text-[11px] font-bold text-foreground leading-tight">{a.title}</div>
                         <div className="font-mono text-[9px] text-muted-foreground mt-1">{a.author}</div>
-                      </button>
+                      </motion.button>
                     ))}
                   </div>
                 </div>
@@ -256,14 +337,19 @@ export default function ResearchPage() {
                     <Sparkles className="w-3 h-3" /> AI RECOMMENDATIONS
                   </div>
                   {recommendations.slice(0, 3).map((rec) => (
-                    <div key={rec.id} className="p-2 rounded-md mb-1.5" style={{ background: 'rgba(167, 139, 250, 0.04)', border: '1px solid rgba(167, 139, 250, 0.08)' }}>
+                    <motion.div
+                      key={rec.id}
+                      whileHover={{ scale: 1.02, borderColor: 'rgba(167, 139, 250, 0.2)' }}
+                      className="p-2 rounded-md mb-1.5 transition-colors"
+                      style={{ background: 'rgba(167, 139, 250, 0.04)', border: '1px solid rgba(167, 139, 250, 0.08)' }}
+                    >
                       <div className="font-serif text-[11px] font-bold text-foreground leading-tight">{rec.title}</div>
                       <div className="text-[9px] font-light text-muted-foreground mt-1 leading-relaxed">{rec.description.slice(0, 80)}...</div>
                       <span className="steami-badge steami-badge-violet text-[7px] mt-1.5 inline-block">{rec.field}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}

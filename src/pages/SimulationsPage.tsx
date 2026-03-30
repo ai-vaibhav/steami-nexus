@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { QuantumBlochSphere } from '@/components/simulations/QuantumBlochSphere';
 import { ThreeBodySim } from '@/components/simulations/ThreeBodySim';
+import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 
 const simulations = [
   {
@@ -33,30 +34,43 @@ export default function SimulationsPage() {
   return (
     <SteamiLayout>
       {/* Page header */}
-      <div className="mb-8">
+      <motion.div className="mb-8" variants={fadeInUp} initial="hidden" animate="visible">
         <div className="steami-section-label">◆ INTERACTIVE SIMULATIONS</div>
         <h1 className="steami-heading text-2xl md:text-3xl mt-2">
           3D Simulations Lab
         </h1>
         <p className="text-[13px] font-light text-muted-foreground mt-3 max-w-[560px] leading-relaxed">
-          Hands-on, interactive 3D visualisations that bring abstract scientific concepts to life. 
+          Hands-on, interactive 3D visualisations that bring abstract scientific concepts to life.
           Drag, adjust, and explore — learning through direct manipulation.
         </p>
-      </div>
+      </motion.div>
 
       {/* Simulation cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {simulations.map((sim) => (
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        {simulations.map((sim, idx) => (
           <motion.div
             key={sim.id}
+            custom={idx}
+            variants={cardVariants}
+            whileHover={cardHover}
+            whileTap={cardTap}
             layoutId={`sim-card-${sim.id}`}
             className="glass-card relative overflow-hidden cursor-pointer group"
             onClick={() => setOpenSim(sim.id)}
-            whileHover={{ y: -3, transition: { duration: 0.2 } }}
           >
             {/* Accent bar */}
-            <div className="absolute top-0 left-0 right-0 h-[2px]"
-              style={{ background: sim.id === 'quantum' ? 'hsl(var(--steami-violet))' : 'hsl(var(--steami-cyan))' }} />
+            <motion.div
+              className="absolute top-0 left-0 right-0 h-[2px]"
+              style={{ background: sim.id === 'quantum' ? 'hsl(var(--steami-violet))' : 'hsl(var(--steami-cyan))' }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.3 + idx * 0.1, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            />
 
             <div className="p-6">
               <span className={`steami-badge ${sim.fieldColor} mb-3 inline-block`}>
@@ -70,37 +84,39 @@ export default function SimulationsPage() {
                 <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
                   {sim.readTime}
                 </span>
-                <button className="steami-btn text-[9px] group-hover:border-[rgba(99,179,237,0.5)]">
+                <span className="steami-btn text-[9px] group-hover:border-steami-cyan/50 transition-colors">
                   ▶ LAUNCH SIMULATION
-                </button>
+                </span>
               </div>
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Modal overlay */}
       <AnimatePresence>
         {openSim && (
           <motion.div
             className="fixed inset-0 z-[200] flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             style={{ background: 'rgba(2,8,18,0.82)', backdropFilter: 'blur(8px)' }}
             onClick={() => setOpenSim(null)}
           >
             <motion.div
               className="w-full max-w-[800px] max-h-[90vh] overflow-y-auto rounded-xl"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               style={{
                 background: 'var(--steami-modal-bg)',
                 backdropFilter: 'blur(24px) saturate(160%)',
                 border: '1px solid rgba(255,255,255,0.07)',
                 boxShadow: '0 25px 50px -12px rgba(0,0,0,0.6), 0 0 40px rgba(99,179,237,0.1)',
               }}
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal header */}
@@ -114,38 +130,61 @@ export default function SimulationsPage() {
                     {simulations.find(s => s.id === openSim)?.readTime}
                   </span>
                 </div>
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setOpenSim(null)}
                   className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"
                   style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(10,25,55,0.4)' }}
                 >
                   ✕
-                </button>
+                </motion.button>
               </div>
 
               {/* Modal body */}
               <div className="p-6 md:p-8">
-                <h2 className="steami-heading text-xl md:text-2xl mb-4">
+                <motion.h2
+                  className="steami-heading text-xl md:text-2xl mb-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                >
                   {simulations.find(s => s.id === openSim)?.title}
-                </h2>
+                </motion.h2>
 
-                <p className="text-[13px] font-light italic leading-relaxed mb-6"
-                  style={{ color: '#8aacca', borderLeft: '2px solid hsl(var(--steami-gold))', paddingLeft: 18 }}>
+                <motion.p
+                  className="text-[13px] font-light italic leading-relaxed mb-6"
+                  style={{ color: '#8aacca', borderLeft: '2px solid hsl(var(--steami-gold))', paddingLeft: 18 }}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
                   {simulations.find(s => s.id === openSim)?.description}
-                </p>
+                </motion.p>
 
                 {/* 3D Simulation */}
-                <div className="mb-4">
+                <motion.div
+                  className="mb-4"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.25, duration: 0.4 }}
+                >
                   {openSim === 'quantum' && <QuantumBlochSphere />}
                   {openSim === 'threebody' && <ThreeBodySim />}
-                </div>
+                </motion.div>
 
                 {/* Caption */}
-                <div className="mt-4 p-3 rounded-lg" style={{ background: 'rgba(6,16,38,0.5)', border: '1px solid rgba(99,179,237,0.14)' }}>
+                <motion.div
+                  className="mt-4 p-3 rounded-lg"
+                  style={{ background: 'rgba(6,16,38,0.5)', border: '1px solid rgba(99,179,237,0.14)' }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                >
                   <p className="font-mono text-[9px] text-muted-foreground tracking-wider leading-relaxed">
                     ◆ {simulations.find(s => s.id === openSim)?.caption}
                   </p>
-                </div>
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { explainers } from '@/data/explainers';
+import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, Play, Pause, X, BookOpen, Lightbulb } from 'lucide-react';
 
 export default function ExplainerPage() {
@@ -13,7 +14,6 @@ export default function ExplainerPage() {
 
   const selected = selectedIdx !== null ? explainers[selectedIdx] : null;
 
-  // Auto slideshow
   useEffect(() => {
     if (!autoPlay || selectedIdx === null || !selected) return;
     const timer = setInterval(() => {
@@ -38,17 +38,25 @@ export default function ExplainerPage() {
   return (
     <SteamiLayout>
       {/* Page Header */}
-      <div className="mb-8">
+      <motion.div className="mb-8" variants={fadeInUp} initial="hidden" animate="visible">
         <h1 className="steami-heading text-3xl md:text-4xl mb-3">
           🧠 Intelligence Explainers
         </h1>
         <p className="text-[13px] font-light text-muted-foreground max-w-xl leading-relaxed">
           Interactive deep-dives into breakthrough science & technology. Select text to save to your Research Diary.
         </p>
-      </div>
+      </motion.div>
 
       {/* Featured Explainer */}
-      <div className="mb-6 cursor-pointer" onClick={() => openModal(0)}>
+      <motion.div
+        className="mb-6 cursor-pointer"
+        onClick={() => openModal(0)}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        whileHover={cardHover}
+        whileTap={cardTap}
+      >
         <div className="glass-card relative p-8 md:p-10 border-l-[3px] border-l-steami-gold overflow-hidden">
           <div className="flex flex-wrap gap-2 mb-4">
             <span className={badgeClass(explainers[0].badgeColor)}>{explainers[0].field}</span>
@@ -68,18 +76,24 @@ export default function ExplainerPage() {
             <BookOpen className="w-3 h-3" /> OPEN EXPLAINER
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Grid of Explainers */}
       <div className="steami-section-label mb-4">ALL EXPLAINERS</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
         {explainers.map((exp, idx) => (
           <motion.div
             key={exp.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.08 }}
-            className="glass-card relative p-5 cursor-pointer hover:translate-y-[-2px] transition-transform overflow-hidden"
+            custom={idx}
+            variants={cardVariants}
+            whileHover={cardHover}
+            whileTap={cardTap}
+            className="glass-card relative p-5 cursor-pointer overflow-hidden"
             onClick={() => openModal(idx)}
           >
             <span className={`${badgeClass(exp.badgeColor)} text-[8px] mb-3 inline-block`}>
@@ -90,23 +104,25 @@ export default function ExplainerPage() {
             <div className="mt-3 font-mono text-[9px] text-muted-foreground">{exp.readTime}</div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Slideshow Modal */}
       <AnimatePresence>
         {selected && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="fixed inset-0 z-[200] flex items-center justify-center p-5"
             style={{ background: 'rgba(2, 8, 18, 0.82)', backdropFilter: 'blur(8px)' }}
             onClick={closeModal}
           >
             <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="w-full max-w-[720px] max-h-[85vh] overflow-y-auto rounded-xl"
               style={{
                 background: 'rgba(5, 14, 32, 0.92)',
@@ -125,15 +141,23 @@ export default function ExplainerPage() {
                   <span className="font-mono text-[9px] text-muted-foreground">{selected.readTime}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.92 }}
                     onClick={() => setAutoPlay(!autoPlay)}
                     className="steami-btn py-1.5 px-2.5 text-[9px]"
                   >
                     {autoPlay ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-                  </button>
-                  <button onClick={closeModal} className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-steami-red transition-colors" style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(10,25,55,0.4)' }}>
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={closeModal}
+                    className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-steami-red transition-colors"
+                    style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(10,25,55,0.4)' }}
+                  >
                     <X className="w-4 h-4" />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 
@@ -151,17 +175,20 @@ export default function ExplainerPage() {
                 {/* Slide Progress */}
                 <div className="flex gap-1 mb-6">
                   {selected.content.map((_, i) => (
-                    <button
+                    <motion.button
                       key={i}
                       onClick={() => { setSlideIdx(i); setAutoPlay(false); }}
-                      className="h-1 flex-1 rounded-full transition-all"
-                      style={{
+                      className="h-1 flex-1 rounded-full"
+                      animate={{
                         background: i === slideIdx
-                          ? 'hsl(var(--steami-cyan))'
+                          ? 'hsl(207 72% 65%)'
                           : i < slideIdx
                           ? 'rgba(99, 179, 237, 0.3)'
                           : 'rgba(255,255,255,0.08)',
+                        scaleY: i === slideIdx ? 1.5 : 1,
                       }}
+                      transition={{ duration: 0.3 }}
+                      whileHover={{ scaleY: 2, background: 'rgba(99, 179, 237, 0.5)' }}
                     />
                   ))}
                 </div>
@@ -170,10 +197,10 @@ export default function ExplainerPage() {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={slideIdx}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, x: 30, filter: 'blur(4px)' }}
+                    animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, x: -30, filter: 'blur(4px)' }}
+                    transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                   >
                     <div className="text-sm font-light leading-relaxed text-muted-foreground mb-4 pl-5 border-l-2 border-steami-gold/50" style={{ fontStyle: 'italic', color: '#8aacca' }}>
                       <span className="font-mono text-[9px] text-steami-gold tracking-wider uppercase block mb-2">
@@ -186,36 +213,52 @@ export default function ExplainerPage() {
 
                 {/* Navigation */}
                 <div className="flex items-center justify-between mt-6 mb-8">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05, x: -2 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => { setSlideIdx(Math.max(0, slideIdx - 1)); setAutoPlay(false); }}
                     className="steami-btn py-2 px-4 text-[9px]"
                     disabled={slideIdx === 0}
                     style={{ opacity: slideIdx === 0 ? 0.3 : 1 }}
                   >
                     <ChevronLeft className="w-3 h-3" /> PREV
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05, x: 2 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => { setSlideIdx(Math.min(selected.content.length - 1, slideIdx + 1)); setAutoPlay(false); }}
                     className="steami-btn py-2 px-4 text-[9px]"
                     disabled={slideIdx === selected.content.length - 1}
                     style={{ opacity: slideIdx === selected.content.length - 1 ? 0.3 : 1 }}
                   >
                     NEXT <ChevronRight className="w-3 h-3" />
-                  </button>
+                  </motion.button>
                 </div>
 
                 {/* Key Insights */}
-                <div className="rounded-xl p-5" style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.4 }}
+                  className="rounded-xl p-5"
+                  style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}
+                >
                   <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
                     <Lightbulb className="w-3 h-3" /> KEY INSIGHTS
                   </div>
                   {selected.keyInsights.map((insight, i) => (
-                    <div key={i} className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0">
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.35 + i * 0.06 }}
+                      className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0"
+                    >
                       <span className="text-steami-cyan text-xs mt-0.5">◆</span>
                       <span className="font-mono text-[11px] text-muted-foreground leading-relaxed">{insight}</span>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>
