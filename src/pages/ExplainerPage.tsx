@@ -6,50 +6,11 @@ import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, Play, Pause, X, BookOpen, Lightbulb } from 'lucide-react';
 
-const CAROUSEL_ITEMS = explainers.slice(0, 6);
-
 export default function ExplainerPage() {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  /* Carousel state */
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeDot, setActiveDot] = useState(0);
-
-  const updateCarouselState = useCallback(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 2);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
-    const cardWidth = el.scrollWidth / CAROUSEL_ITEMS.length;
-    setActiveDot(Math.round(el.scrollLeft / cardWidth));
-  }, []);
-
-  useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', updateCarouselState, { passive: true });
-    updateCarouselState();
-    return () => el.removeEventListener('scroll', updateCarouselState);
-  }, [updateCarouselState]);
-
-  const scrollCarousel = (dir: number) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    const cardW = el.querySelector('[data-carousel-card]')?.clientWidth ?? 300;
-    el.scrollBy({ left: dir * (cardW + 12), behavior: 'smooth' });
-  };
-
-  const scrollToDot = (i: number) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    const cardW = el.scrollWidth / CAROUSEL_ITEMS.length;
-    el.scrollTo({ left: cardW * i, behavior: 'smooth' });
-  };
 
   const selected = selectedIdx !== null ? explainers[selectedIdx] : null;
 
@@ -86,103 +47,38 @@ export default function ExplainerPage() {
         </p>
       </motion.div>
 
-      {/* ─── CAROUSEL SECTION ──────────────────────────────── */}
-      <div className="steami-section-label mb-4">FEATURED EXPLAINERS</div>
+      {/* Featured Explainer */}
       <motion.div
-        className="relative mb-10"
-        initial={{ opacity: 0, y: 16 }}
+        className="mb-6 cursor-pointer"
+        onClick={() => openModal(0)}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
+        whileHover={cardHover}
+        whileTap={cardTap}
       >
-        {/* Arrow Left */}
-        <AnimatePresence>
-          {canScrollLeft && (
-            <motion.button
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              onClick={() => scrollCarousel(-1)}
-              className="absolute -left-3 md:-left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full flex items-center justify-center text-foreground/70 hover:text-steami-cyan transition-colors"
-              style={{
-                background: 'rgba(5, 14, 32, 0.85)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(99, 179, 237, 0.25)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-              }}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </motion.button>
-          )}
-        </AnimatePresence>
-
-        {/* Arrow Right */}
-        <AnimatePresence>
-          {canScrollRight && (
-            <motion.button
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              onClick={() => scrollCarousel(1)}
-              className="absolute -right-3 md:-right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full flex items-center justify-center text-foreground/70 hover:text-steami-cyan transition-colors"
-              style={{
-                background: 'rgba(5, 14, 32, 0.85)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(99, 179, 237, 0.25)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
-              }}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </motion.button>
-          )}
-        </AnimatePresence>
-
-        {/* Cards strip */}
-        <div
-          ref={carouselRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2"
-          style={{ scrollbarWidth: 'none' }}
-        >
-          {CAROUSEL_ITEMS.map((exp, idx) => (
-            <motion.div
-              key={exp.id}
-              data-carousel-card
-              className="glass-card relative shrink-0 w-[280px] sm:w-[300px] md:w-[320px] snap-start p-5 cursor-pointer overflow-hidden"
-              whileHover={cardHover}
-              whileTap={cardTap}
-              onClick={() => openModal(idx)}
-            >
-              <div className="flex flex-wrap gap-2 mb-3">
-                <span className={`${badgeClass(exp.badgeColor)} text-[8px]`}>{exp.field}</span>
-                {idx === 0 && <span className="steami-badge steami-badge-gold text-[8px]">FEATURED</span>}
-              </div>
-              <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
-              <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{exp.subtitle}</p>
-              <div className="mt-3 flex items-center justify-between">
-                <span className="font-mono text-[9px] text-muted-foreground">{exp.readTime}</span>
-                <BookOpen className="w-3.5 h-3.5 text-steami-cyan/50" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Dot indicators */}
-        <div className="flex justify-center gap-1.5 mt-4">
-          {CAROUSEL_ITEMS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToDot(i)}
-              className="w-1.5 h-1.5 rounded-full transition-all duration-300"
-              style={{
-                background: i === activeDot ? 'hsl(207 72% 65%)' : 'rgba(99, 179, 237, 0.2)',
-                transform: i === activeDot ? 'scale(1.5)' : 'scale(1)',
-                boxShadow: i === activeDot ? '0 0 8px rgba(99, 179, 237, 0.4)' : 'none',
-              }}
-            />
-          ))}
+        <div className="glass-card relative p-8 md:p-10 border-l-[3px] border-l-steami-gold overflow-hidden">
+          <div className="flex flex-wrap gap-2 mb-4">
+            <span className={badgeClass(explainers[0].badgeColor)}>{explainers[0].field}</span>
+            <span className="steami-badge steami-badge-gold">FEATURED</span>
+          </div>
+          <h2 className="steami-heading text-2xl md:text-3xl mb-3">{explainers[0].title}</h2>
+          <p className="text-[13px] font-light text-muted-foreground leading-relaxed max-w-lg mb-5">
+            {explainers[0].subtitle}
+          </p>
+          <div className="flex items-center gap-4 mb-5">
+            <span className="font-mono text-[9px] tracking-wider uppercase text-steami-cyan border border-steami-cyan/25 px-2 py-0.5 rounded-sm">
+              {explainers[0].field}
+            </span>
+            <span className="font-mono text-[10px] text-muted-foreground">{explainers[0].readTime}</span>
+          </div>
+          <button className="steami-btn">
+            <BookOpen className="w-3 h-3" /> OPEN EXPLAINER
+          </button>
         </div>
       </motion.div>
 
-      {/* ─── ALL EXPLAINERS GRID ──────────────────────────── */}
+      {/* Grid of Explainers */}
       <div className="steami-section-label mb-4">ALL EXPLAINERS</div>
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
@@ -210,7 +106,7 @@ export default function ExplainerPage() {
         ))}
       </motion.div>
 
-      {/* ─── SLIDESHOW MODAL ─────────────────────────────── */}
+      {/* Slideshow Modal */}
       <AnimatePresence>
         {selected && (
           <motion.div

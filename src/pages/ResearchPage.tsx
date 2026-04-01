@@ -5,41 +5,7 @@ import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Field, type Article } from '@/data/research-articles';
 import { useSteamiStore } from '@/stores/steami-store';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
-import { X, ChevronLeft, ChevronRight, Network, FileText, Sparkles, Image as ImageIcon, Play } from 'lucide-react';
-
-/* ── Inline media helpers ─────────────────────────────── */
-const ARTICLE_HERO_IMAGES: Record<string, string> = {
-  a1: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=400&fit=crop',
-  a2: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800&h=400&fit=crop',
-  a3: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop',
-  a4: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop',
-  a5: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=400&fit=crop',
-  a6: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=800&h=400&fit=crop',
-  a7: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=400&fit=crop',
-  a8: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&h=400&fit=crop',
-  a9: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&h=400&fit=crop',
-  a10: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=800&h=400&fit=crop',
-  a11: 'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=800&h=400&fit=crop',
-};
-
-function HeroImage({ src, alt }: { src?: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
-  if (!src) return null;
-  return (
-    <div className="relative mb-6 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(99, 179, 237, 0.12)' }}>
-      {!loaded && <div className="shimmer w-full aspect-[2/1]" />}
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        className="w-full aspect-[2/1] object-cover transition-opacity duration-500"
-        style={{ opacity: loaded ? 1 : 0, borderRadius: 'inherit' }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
-    </div>
-  );
-}
+import { X, ChevronLeft, ChevronRight, BookOpen, Network, FileText, Sparkles } from 'lucide-react';
 
 export default function ResearchPage() {
   const [activeField, setActiveField] = useState<Field>('PHYSICS');
@@ -144,22 +110,6 @@ export default function ResearchPage() {
               className="glass-card relative p-5 cursor-pointer overflow-hidden"
               onClick={() => setSelectedArticle(article)}
             >
-              {/* Thumbnail */}
-              {ARTICLE_HERO_IMAGES[article.id] && (
-                <div className="relative mb-3 rounded-lg overflow-hidden aspect-[2.2/1]">
-                  <img
-                    src={ARTICLE_HERO_IMAGES[article.id]}
-                    alt=""
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
-                  <div className="absolute bottom-2 left-2 flex items-center gap-1">
-                    <ImageIcon className="w-3 h-3 text-foreground/60" />
-                    <span className="font-mono text-[8px] text-foreground/60">MEDIA</span>
-                  </div>
-                </div>
-              )}
               <div className="flex items-center gap-2 mb-3">
                 <span className={`steami-badge steami-badge-${FIELD_COLORS[article.field]} text-[8px]`}>
                   {article.field}
@@ -167,7 +117,7 @@ export default function ResearchPage() {
                 <span className="font-mono text-[9px] text-muted-foreground">{article.readTime}</span>
               </div>
               <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{article.title}</h3>
-              <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{article.abstract}</p>
+              <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3">{article.abstract}</p>
               <div className="mt-3 flex items-center justify-between">
                 <span className="font-mono text-[9px] text-muted-foreground">{article.author}</span>
                 <span className="font-mono text-[9px] text-muted-foreground">{article.date}</span>
@@ -182,7 +132,7 @@ export default function ResearchPage() {
         )}
       </motion.div>
 
-      {/* ─── FULL ARTICLE MODAL (split layout) ─────────── */}
+      {/* Full Article Modal */}
       <AnimatePresence>
         {selectedArticle && (
           <motion.div
@@ -199,13 +149,13 @@ export default function ResearchPage() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="flex flex-1 max-w-[1100px] mx-auto gap-4 max-h-[90vh] flex-col lg:flex-row"
+              className="flex flex-1 max-w-[1100px] mx-auto gap-4 max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Main Content */}
               <div
                 ref={contentRef}
-                className="flex-1 overflow-y-auto rounded-xl min-w-0"
+                className="flex-1 overflow-y-auto rounded-xl"
                 style={{
                   background: 'rgba(5, 14, 32, 0.92)',
                   backdropFilter: 'blur(24px) saturate(160%)',
@@ -241,9 +191,6 @@ export default function ResearchPage() {
 
                 {/* Article Body */}
                 <div className="p-7">
-                  {/* Hero Image */}
-                  <HeroImage src={ARTICLE_HERO_IMAGES[selectedArticle.id]} alt={selectedArticle.title} />
-
                   <motion.h2
                     className="steami-heading text-2xl mb-2"
                     initial={{ opacity: 0, y: 10 }}
@@ -296,53 +243,40 @@ export default function ResearchPage() {
                     </motion.blockquote>
                   ))}
 
-                  {/* Key Findings — visible on mobile, hidden on lg (shown in sidebar) */}
+                  {/* Key Findings */}
                   <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="rounded-xl p-5 mt-6 lg:hidden"
+                    className="rounded-xl p-5 mt-6"
                     style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}
                   >
                     <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
                       <Sparkles className="w-3 h-3" /> KEY FINDINGS
                     </div>
                     {selectedArticle.keyFindings.map((f, i) => (
-                      <div key={i} className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0">
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.45 + i * 0.05 }}
+                        className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0"
+                      >
                         <span className="text-steami-cyan text-xs mt-0.5">◆</span>
                         <span className="font-mono text-[11px] text-muted-foreground leading-relaxed">{f}</span>
-                      </div>
+                      </motion.div>
                     ))}
                   </motion.div>
                 </div>
               </div>
 
-              {/* ── Right Sidebar (desktop) ────────────────── */}
+              {/* Right Sidebar */}
               <motion.div
                 className="w-72 hidden lg:flex flex-col gap-3 overflow-y-auto"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.4 }}
               >
-                {/* KEY FINDINGS — repositioned to sidebar */}
-                <div className="rounded-xl p-4" style={{ background: 'rgba(5, 14, 32, 0.88)', border: '1px solid rgba(99, 179, 237, 0.22)' }}>
-                  <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
-                    <Sparkles className="w-3 h-3" /> KEY FINDINGS
-                  </div>
-                  {selectedArticle.keyFindings.map((f, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + i * 0.05 }}
-                      className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0"
-                    >
-                      <span className="text-steami-cyan text-xs mt-0.5">◆</span>
-                      <span className="font-mono text-[11px] text-muted-foreground leading-relaxed">{f}</span>
-                    </motion.div>
-                  ))}
-                </div>
-
                 {/* Knowledge Map */}
                 <div className="rounded-xl p-4" style={{ background: 'rgba(5, 14, 32, 0.88)', border: '1px solid rgba(99, 179, 237, 0.14)' }}>
                   <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
