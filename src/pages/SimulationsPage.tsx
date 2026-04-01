@@ -4,6 +4,7 @@ import { SteamiLayout } from '@/components/SteamiLayout';
 import { QuantumBlochSphere } from '@/components/simulations/QuantumBlochSphere';
 import { ThreeBodySim } from '@/components/simulations/ThreeBodySim';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
+import { Lightbulb, ChevronDown } from 'lucide-react';
 
 const simulations = [
   {
@@ -15,6 +16,12 @@ const simulations = [
       'Explore the Bloch sphere — the geometric representation of a qubit\'s quantum state. Unlike classical bits locked to 0 or 1, a qubit can exist in any superposition, represented as a point anywhere on the sphere\'s surface.',
     caption: 'Interactive Bloch Sphere — drag to rotate, toggle superposition mode, or manually set θ and φ angles.',
     readTime: '12 min interactive',
+    insights: [
+      'A qubit is like a coin spinning in the air — it\'s both heads and tails until it lands (is measured).',
+      'The Bloch sphere is a map of all possible qubit states — the north pole is "0", the south pole is "1", and everywhere else is a mix.',
+      'Quantum computers use qubits to test many answers at once, like reading every book in a library simultaneously.',
+      'When you measure a qubit, its superposition "collapses" to a definite answer — just like catching the spinning coin.',
+    ],
   },
   {
     id: 'threebody',
@@ -25,11 +32,22 @@ const simulations = [
       'The three-body problem has no general closed-form solution — three masses interacting gravitationally produce chaotic, unpredictable trajectories. This simulation demonstrates why even tiny changes in initial conditions lead to wildly divergent orbits.',
     caption: 'Gravitational N-body simulation — adjust mass ratios and simulation speed to observe chaotic dynamics.',
     readTime: '10 min interactive',
+    insights: [
+      'Predicting the motion of three objects pulling on each other with gravity is one of the oldest unsolved problems in physics.',
+      'Even the tiniest change in starting position can lead to a completely different outcome — this is called "chaos".',
+      'We can predict Earth orbiting the Sun easily (two bodies), but add a third and the math becomes nearly impossible to solve exactly.',
+      'Scientists use computers to approximate solutions step-by-step, which is exactly what this simulation does.',
+    ],
   },
 ];
 
 export default function SimulationsPage() {
   const [openSim, setOpenSim] = useState<string | null>(null);
+  const [expandedInsights, setExpandedInsights] = useState<Record<string, boolean>>({});
+
+  const toggleInsights = (id: string) => {
+    setExpandedInsights((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   return (
     <SteamiLayout>
@@ -57,11 +75,8 @@ export default function SimulationsPage() {
             key={sim.id}
             custom={idx}
             variants={cardVariants}
-            whileHover={cardHover}
-            whileTap={cardTap}
             layoutId={`sim-card-${sim.id}`}
-            className="glass-card relative overflow-hidden cursor-pointer group"
-            onClick={() => setOpenSim(sim.id)}
+            className="glass-card relative overflow-hidden"
           >
             {/* Accent bar */}
             <motion.div
@@ -80,13 +95,63 @@ export default function SimulationsPage() {
               <p className="text-[12px] font-light text-muted-foreground leading-relaxed mb-4">
                 {sim.description}
               </p>
+
+              {/* Key Insights collapsible */}
+              <div className="mb-4">
+                <motion.button
+                  onClick={() => toggleInsights(sim.id)}
+                  className="flex items-center gap-2 font-mono text-[9px] tracking-wider uppercase text-steami-cyan mb-2 w-full"
+                  whileHover={{ x: 2 }}
+                >
+                  <Lightbulb className="w-3 h-3" />
+                  KEY INSIGHTS
+                  <motion.span
+                    animate={{ rotate: expandedInsights[sim.id] ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-3 h-3" />
+                  </motion.span>
+                </motion.button>
+                <AnimatePresence>
+                  {expandedInsights[sim.id] && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div
+                        className="rounded-lg p-3"
+                        style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}
+                      >
+                        {sim.insights.map((insight, i) => (
+                          <div
+                            key={i}
+                            className="flex items-start gap-2 py-1.5 border-b border-steami-cyan/5 last:border-0"
+                          >
+                            <span className="text-steami-cyan text-xs mt-0.5">◆</span>
+                            <span className="font-mono text-[10px] text-muted-foreground leading-relaxed">{insight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
                   {sim.readTime}
                 </span>
-                <span className="steami-btn text-[9px] group-hover:border-steami-cyan/50 transition-colors">
+                <motion.button
+                  whileHover={cardHover}
+                  whileTap={cardTap}
+                  onClick={() => setOpenSim(sim.id)}
+                  className="steami-btn text-[9px]"
+                >
                   ▶ LAUNCH SIMULATION
-                </span>
+                </motion.button>
               </div>
             </div>
           </motion.div>

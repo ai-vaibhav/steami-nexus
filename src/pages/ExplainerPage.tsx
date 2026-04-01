@@ -12,8 +12,14 @@ export default function ExplainerPage() {
   const [autoPlay, setAutoPlay] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // Featured carousel state
+  const [carouselIdx, setCarouselIdx] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const carouselCount = explainers.length;
+
   const selected = selectedIdx !== null ? explainers[selectedIdx] : null;
 
+  // Modal slideshow auto-play
   useEffect(() => {
     if (!autoPlay || selectedIdx === null || !selected) return;
     const timer = setInterval(() => {
@@ -21,6 +27,15 @@ export default function ExplainerPage() {
     }, 6000);
     return () => clearInterval(timer);
   }, [autoPlay, selectedIdx, selected]);
+
+  // Featured carousel auto-slide
+  useEffect(() => {
+    if (carouselPaused) return;
+    const timer = setInterval(() => {
+      setCarouselIdx((p) => (p + 1) % carouselCount);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [carouselPaused, carouselCount]);
 
   const openModal = useCallback((idx: number) => {
     setSelectedIdx(idx);
@@ -47,36 +62,95 @@ export default function ExplainerPage() {
         </p>
       </motion.div>
 
-      {/* Featured Explainer */}
-      <motion.div
-        className="mb-6 cursor-pointer"
-        onClick={() => openModal(0)}
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        whileHover={cardHover}
-        whileTap={cardTap}
-      >
-        <div className="glass-card relative p-8 md:p-10 border-l-[3px] border-l-steami-gold overflow-hidden">
-          <div className="flex flex-wrap gap-2 mb-4">
-            <span className={badgeClass(explainers[0].badgeColor)}>{explainers[0].field}</span>
-            <span className="steami-badge steami-badge-gold">FEATURED</span>
+      {/* Featured Carousel */}
+      <div className="mb-8">
+        <div className="steami-section-label mb-4">◆ FEATURED EXPLAINERS</div>
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => setCarouselPaused(true)}
+          onMouseLeave={() => setCarouselPaused(false)}
+        >
+          {/* Carousel track */}
+          <div className="relative" style={{ minHeight: 200 }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={carouselIdx}
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -60 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-3"
+              >
+                {[0, 1, 2].map((offset) => {
+                  const idx = (carouselIdx + offset) % carouselCount;
+                  const exp = explainers[idx];
+                  return (
+                    <motion.div
+                      key={exp.id}
+                      whileHover={cardHover}
+                      whileTap={cardTap}
+                      className="glass-card relative p-5 cursor-pointer overflow-hidden"
+                      onClick={() => openModal(idx)}
+                    >
+                      {offset === 0 && (
+                        <motion.div
+                          className="absolute top-0 left-0 right-0 h-[2px]"
+                          style={{ background: 'hsl(var(--steami-gold))' }}
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      )}
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        <span className={`${badgeClass(exp.badgeColor)} text-[8px]`}>{exp.field}</span>
+                        {offset === 0 && <span className="steami-badge steami-badge-gold text-[8px]">FEATURED</span>}
+                      </div>
+                      <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
+                      <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{exp.subtitle}</p>
+                      <div className="mt-3 font-mono text-[9px] text-muted-foreground">{exp.readTime}</div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            </AnimatePresence>
           </div>
-          <h2 className="steami-heading text-2xl md:text-3xl mb-3">{explainers[0].title}</h2>
-          <p className="text-[13px] font-light text-muted-foreground leading-relaxed max-w-lg mb-5">
-            {explainers[0].subtitle}
-          </p>
-          <div className="flex items-center gap-4 mb-5">
-            <span className="font-mono text-[9px] tracking-wider uppercase text-steami-cyan border border-steami-cyan/25 px-2 py-0.5 rounded-sm">
-              {explainers[0].field}
-            </span>
-            <span className="font-mono text-[10px] text-muted-foreground">{explainers[0].readTime}</span>
+
+          {/* Navigation arrows */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => { setCarouselIdx((p) => (p - 1 + carouselCount) % carouselCount); setCarouselPaused(true); }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-steami-cyan transition-colors"
+            style={{ background: 'rgba(3, 8, 20, 0.85)', border: '1px solid rgba(99,179,237,0.2)' }}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => { setCarouselIdx((p) => (p + 1) % carouselCount); setCarouselPaused(true); }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-steami-cyan transition-colors"
+            style={{ background: 'rgba(3, 8, 20, 0.85)', border: '1px solid rgba(99,179,237,0.2)' }}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </motion.button>
+
+          {/* Dot indicators */}
+          <div className="flex justify-center gap-1.5 mt-4">
+            {explainers.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setCarouselIdx(i); setCarouselPaused(true); }}
+                className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+                style={{
+                  background: i === carouselIdx ? 'hsl(var(--steami-cyan))' : 'rgba(99,179,237,0.2)',
+                  transform: i === carouselIdx ? 'scale(1.6)' : 'scale(1)',
+                }}
+              />
+            ))}
           </div>
-          <button className="steami-btn">
-            <BookOpen className="w-3 h-3" /> OPEN EXPLAINER
-          </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Grid of Explainers */}
       <div className="steami-section-label mb-4">ALL EXPLAINERS</div>
