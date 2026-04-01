@@ -331,10 +331,10 @@ export default function ResearchPage() {
                   )}
                 </div>
 
-                {/* AI Recommendations */}
+                {/* Recommendations */}
                 <div className="rounded-xl p-4" style={{ background: 'rgba(5, 14, 32, 0.88)', border: '1px solid rgba(167, 139, 250, 0.14)' }}>
                   <div className="font-mono text-[10px] tracking-wider uppercase text-steami-violet mb-3 flex items-center gap-2">
-                    <Sparkles className="w-3 h-3" /> AI RECOMMENDATIONS
+                    <Sparkles className="w-3 h-3" /> RECOMMENDATIONS
                   </div>
                   {recommendations.slice(0, 3).map((rec) => (
                     <motion.div

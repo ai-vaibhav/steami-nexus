@@ -28,7 +28,7 @@ export default function DashboardPage() {
       <motion.div className="mb-8" variants={fadeInUp} initial="hidden" animate="visible">
         <h1 className="steami-heading text-3xl md:text-4xl mb-3">📊 Intelligence Dashboard</h1>
         <p className="text-[13px] font-light text-muted-foreground max-w-xl leading-relaxed">
-          Your personalized research hub. Notes, AI recommendations, and learning insights — all in one place.
+          Your personalized research hub. Notes, recommendations, and learning insights — all in one place.
         </p>
       </motion.div>
 
@@ -168,9 +168,9 @@ export default function DashboardPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.45 }}
         >
-          {/* AI Feed */}
+          {/* Feed */}
           <div>
-            <div className="steami-section-label mb-3">🤖 AI FEED</div>
+            <div className="steami-section-label mb-3">🤖 FEED</div>
             <div className="flex gap-1 mb-3">
               {(['all', 'article', 'news', 'explainer'] as const).map((f) => (
                 <motion.button
