@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
+import { KnowledgeGraph } from '@/components/KnowledgeGraph';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb } from 'lucide-react';
@@ -12,14 +13,12 @@ export default function ExplainerPage() {
   const [autoPlay, setAutoPlay] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Featured single-card carousel state
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
   const featuredCount = Math.min(explainers.length, 6);
 
   const selected = selectedIdx !== null ? explainers[selectedIdx] : null;
 
-  // Modal slideshow auto-play
   useEffect(() => {
     if (!autoPlay || selectedIdx === null || !selected) return;
     const timer = setInterval(() => {
@@ -28,7 +27,6 @@ export default function ExplainerPage() {
     return () => clearInterval(timer);
   }, [autoPlay, selectedIdx, selected]);
 
-  // Featured carousel auto-slide (single card, 4s)
   useEffect(() => {
     if (carouselPaused) return;
     const timer = setInterval(() => {
@@ -52,7 +50,6 @@ export default function ExplainerPage() {
 
   return (
     <SteamiLayout>
-      {/* Page Header */}
       <motion.div className="mb-8" variants={fadeInUp} initial="hidden" animate="visible">
         <h1 className="steami-heading text-3xl md:text-4xl mb-3">
           🧠 Intelligence Explainers
@@ -102,8 +99,7 @@ export default function ExplainerPage() {
                       </div>
                       <h3 className="font-serif text-lg md:text-xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
                       <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-4 max-w-2xl">{exp.subtitle}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] text-muted-foreground">{exp.readTime}</span>
+                      <div className="flex items-center justify-end">
                         <span className="font-mono text-[9px] text-steami-cyan tracking-wider uppercase">Click to read →</span>
                       </div>
                     </motion.div>
@@ -113,7 +109,6 @@ export default function ExplainerPage() {
             </AnimatePresence>
           </div>
 
-          {/* Navigation arrows */}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -133,7 +128,6 @@ export default function ExplainerPage() {
             <ChevronRight className="w-4 h-4" />
           </motion.button>
 
-          {/* Dot indicators */}
           <div className="flex justify-center gap-2 mt-4">
             {Array.from({ length: featuredCount }).map((_, i) => (
               <button
@@ -173,7 +167,6 @@ export default function ExplainerPage() {
             </span>
             <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
             <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{exp.subtitle}</p>
-            <div className="mt-3 font-mono text-[9px] text-muted-foreground">{exp.readTime}</div>
           </motion.div>
         ))}
       </motion.div>
@@ -204,13 +197,12 @@ export default function ExplainerPage() {
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header with Key Insights top-right */}
+              {/* Header */}
               <div className="sticky top-0 z-10 px-7 py-4 flex items-center justify-between border-b border-foreground/5"
                 style={{ background: 'rgba(5, 14, 32, 0.95)', backdropFilter: 'blur(20px)' }}
               >
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={badgeClass(selected.badgeColor)}>{selected.field}</span>
-                  <span className="font-mono text-[9px] text-muted-foreground">{selected.readTime}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <motion.button
@@ -242,7 +234,6 @@ export default function ExplainerPage() {
                   field={selected.field}
                 />
 
-                {/* Top-right Key Insights */}
                 <div className="flex flex-col-reverse md:flex-row gap-6">
                   <div className="flex-1">
                     <h2 className="steami-heading text-2xl mb-5">{selected.title}</h2>
@@ -286,6 +277,15 @@ export default function ExplainerPage() {
                       </motion.div>
                     </AnimatePresence>
 
+                    {/* Knowledge Graph */}
+                    <div className="mt-6 mb-4">
+                      <KnowledgeGraph
+                        centerTopic={selected.title}
+                        relatedTopics={selected.keyInsights.slice(0, 4)}
+                        field={selected.field}
+                      />
+                    </div>
+
                     {/* Navigation */}
                     <div className="flex items-center justify-between mt-6">
                       <motion.button
@@ -311,7 +311,7 @@ export default function ExplainerPage() {
                     </div>
                   </div>
 
-                  {/* Key Insights - positioned top-right */}
+                  {/* Key Insights - top-right */}
                   <motion.div
                     initial={{ opacity: 0, x: 12 }}
                     animate={{ opacity: 1, x: 0 }}
