@@ -107,7 +107,7 @@ export default function ResearchPage() {
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
               whileHover={cardHover}
               whileTap={cardTap}
-              className="glass-card relative p-5 cursor-pointer overflow-hidden"
+              className="glass-card relative p-6 cursor-pointer overflow-hidden"
               onClick={() => setSelectedArticle(article)}
             >
               <div className="flex items-center gap-2 mb-3">
