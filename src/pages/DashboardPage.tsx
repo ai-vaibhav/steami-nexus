@@ -221,7 +221,7 @@ export default function DashboardPage() {
           {/* User Intelligence */}
           <div>
             <div className="steami-section-label mb-3">📊 INTELLIGENCE PROFILE</div>
-            <div className="glass-card relative p-5 overflow-hidden">
+            <div className="glass-card relative p-6 overflow-hidden">
               <motion.div
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}

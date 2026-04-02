@@ -243,12 +243,12 @@ export default function ResearchPage() {
                     </motion.blockquote>
                   ))}
 
-                  {/* Key Findings */}
+                  {/* Key Findings - top-right aligned */}
                   <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="rounded-xl p-5 mt-6"
+                    className="rounded-xl p-5 mt-6 md:float-right md:ml-5 md:mb-4 md:w-64"
                     style={{ background: 'rgba(6, 16, 38, 0.5)', border: '1px solid rgba(99, 179, 237, 0.14)' }}
                   >
                     <div className="font-mono text-[10px] tracking-wider uppercase text-steami-cyan mb-3 flex items-center gap-2">
