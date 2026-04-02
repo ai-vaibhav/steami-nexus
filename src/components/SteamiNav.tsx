@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useSteamiStore } from '@/stores/steami-store';
+import { useState } from 'react';
 
 const navLinks = [
   { path: '/', label: 'EXPLAINERS' },
@@ -12,6 +13,7 @@ const navLinks = [
 export function SteamiNav() {
   const location = useLocation();
   const diaryCount = useSteamiStore((s) => s.diary.length);
+  const [subscribed, setSubscribed] = useState(false);
 
   return (
     <motion.nav
@@ -73,25 +75,20 @@ export function SteamiNav() {
             </Link>
           </motion.div>
         )}
-        <div className="flex items-center gap-2">
-          <motion.div
-            className="w-2 h-2 rounded-full bg-steami-red"
-            animate={{ scale: [1, 1.3, 1], opacity: [1, 0.4, 1] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <span className="font-mono text-[10px] text-steami-red tracking-wider">LIVE</span>
-        </div>
         <motion.button
-          whileHover={{ scale: 1.04, borderColor: 'rgba(99, 179, 237, 0.4)' }}
+          whileHover={{ scale: 1.04, borderColor: subscribed ? 'rgba(232, 184, 75, 0.6)' : 'rgba(99, 179, 237, 0.4)' }}
           whileTap={{ scale: 0.96 }}
-          className="font-mono text-[10px] tracking-wider uppercase px-3 py-1.5 rounded-md text-muted-foreground transition-all hover:text-steami-cyan"
+          onClick={() => setSubscribed(!subscribed)}
+          className={`font-mono text-[10px] tracking-wider uppercase px-3 py-1.5 rounded-md transition-all ${
+            subscribed ? 'text-steami-gold' : 'text-muted-foreground hover:text-steami-cyan'
+          }`}
           style={{
-            border: '1px solid rgba(99, 179, 237, 0.18)',
-            background: 'rgba(10, 25, 55, 0.4)',
+            border: `1px solid ${subscribed ? 'rgba(232, 184, 75, 0.35)' : 'rgba(99, 179, 237, 0.18)'}`,
+            background: subscribed ? 'rgba(232, 184, 75, 0.1)' : 'rgba(10, 25, 55, 0.4)',
             backdropFilter: 'blur(8px)',
           }}
         >
-          ⌘ CMD
+          {subscribed ? '✓ SUBSCRIBED' : '✦ SUBSCRIBE'}
         </motion.button>
       </div>
     </motion.nav>
