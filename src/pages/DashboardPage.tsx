@@ -138,9 +138,6 @@ export default function DashboardPage() {
                           {entry.field && (
                             <span className="steami-badge steami-badge-gold text-[7px]">{entry.field}</span>
                           )}
-                          <span className="font-mono text-[8px] text-muted-foreground">
-                            {new Date(entry.timestamp).toLocaleDateString()}
-                          </span>
                         </div>
                         <p className="text-[12px] font-light text-foreground/80 leading-relaxed mb-1">"{entry.text}"</p>
                         <p className="font-mono text-[9px] text-muted-foreground">from: {entry.source}</p>
