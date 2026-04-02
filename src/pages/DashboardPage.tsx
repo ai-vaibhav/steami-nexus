@@ -50,7 +50,7 @@ export default function DashboardPage() {
             custom={idx}
             variants={cardVariants}
             whileHover={cardHover}
-            className="glass-card relative p-5 overflow-hidden text-center"
+            className="glass-card relative p-6 overflow-hidden text-center"
           >
             <motion.div
               initial={{ scale: 0 }}
