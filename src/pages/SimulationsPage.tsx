@@ -87,7 +87,7 @@ export default function SimulationsPage() {
               transition={{ delay: 0.3 + idx * 0.1, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
             />
 
-            <div className="p-6">
+            <div className="p-7">
               <span className={`steami-badge ${sim.fieldColor} mb-3 inline-block`}>
                 {sim.field}
               </span>

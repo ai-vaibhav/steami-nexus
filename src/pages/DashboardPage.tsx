@@ -50,7 +50,7 @@ export default function DashboardPage() {
             custom={idx}
             variants={cardVariants}
             whileHover={cardHover}
-            className="glass-card relative p-5 overflow-hidden text-center"
+            className="glass-card relative p-6 overflow-hidden text-center"
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -127,7 +127,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, x: 20, scale: 0.95, transition: { duration: 0.2 } }}
                     transition={{ delay: idx * 0.04 }}
                     layout
-                    className="glass-card relative p-4 overflow-hidden group"
+                    className="glass-card relative p-5 overflow-hidden group"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
@@ -202,7 +202,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ delay: idx * 0.04 }}
                     whileHover={cardHover}
-                    className="glass-card relative p-4 overflow-hidden cursor-pointer"
+                    className="glass-card relative p-5 overflow-hidden cursor-pointer"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <span className={`steami-badge text-[7px] ${rec.type === 'article' ? 'steami-badge-cyan' : rec.type === 'news' ? 'steami-badge-green' : 'steami-badge-violet'}`}>
@@ -221,7 +221,7 @@ export default function DashboardPage() {
           {/* User Intelligence */}
           <div>
             <div className="steami-section-label mb-3">📊 INTELLIGENCE PROFILE</div>
-            <div className="glass-card relative p-5 overflow-hidden">
+            <div className="glass-card relative p-6 overflow-hidden">
               <motion.div
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
