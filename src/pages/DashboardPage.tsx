@@ -202,7 +202,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ delay: idx * 0.04 }}
                     whileHover={cardHover}
-                    className="glass-card relative p-4 overflow-hidden cursor-pointer"
+                    className="glass-card relative p-5 overflow-hidden cursor-pointer"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <span className={`steami-badge text-[7px] ${rec.type === 'article' ? 'steami-badge-cyan' : rec.type === 'news' ? 'steami-badge-green' : 'steami-badge-violet'}`}>
