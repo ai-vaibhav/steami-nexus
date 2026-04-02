@@ -127,7 +127,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, x: 20, scale: 0.95, transition: { duration: 0.2 } }}
                     transition={{ delay: idx * 0.04 }}
                     layout
-                    className="glass-card relative p-4 overflow-hidden group"
+                    className="glass-card relative p-5 overflow-hidden group"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
