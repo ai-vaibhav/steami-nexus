@@ -94,12 +94,15 @@ export default function ExplainerPage() {
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 0.5 }}
                       />
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        <span className={`${badgeClass(exp.badgeColor)} text-[9px]`}>{exp.field}</span>
-                        <span className="steami-badge steami-badge-gold text-[9px]">FEATURED</span>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex flex-wrap gap-2">
+                          <span className={`${badgeClass(exp.badgeColor)} text-[9px]`}>{exp.field}</span>
+                          <span className="steami-badge steami-badge-gold text-[9px]">FEATURED</span>
+                        </div>
+                        <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <h3 className="font-serif text-lg md:text-xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
-                      <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-4 max-w-2xl">{exp.subtitle}</p>
+                      <h3 className="font-serif text-xl md:text-2xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
+                      <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-6 max-w-2xl">{exp.subtitle}</p>
                       <div className="flex items-center justify-end">
                         <span className="font-mono text-[9px] text-steami-cyan tracking-wider uppercase">Click to read →</span>
                       </div>
