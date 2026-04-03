@@ -14,6 +14,7 @@ export function TextSelectionPopover({ containerRef, source, sourceType, field }
   const [show, setShow] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [selectedText, setSelectedText] = useState('');
+  const [copied, setCopied] = useState(false);
   const addToDiary = useSteamiStore((s) => s.addToDiary);
 
   const handleMouseUp = useCallback(() => {
