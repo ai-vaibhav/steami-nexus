@@ -145,7 +145,7 @@ export function TextSelectionPopover({ containerRef, source, sourceType, field }
             style={{
               borderLeft: '6px solid transparent',
               borderRight: '6px solid transparent',
-              borderTop: '6px solid rgba(8, 20, 48, 0.88)',
+              borderTop: '6px solid rgba(10, 18, 42, 0.92)',
               marginTop: '-1px',
               width: 'fit-content',
             }}

@@ -212,6 +212,7 @@ export default function ExplainerPage() {
                   <span className={badgeClass(selected.badgeColor)}>{selected.field}</span>
                 </div>
                 <div className="flex items-center gap-2">
+                  <ShareMenu title={selected.title} compact />
                   <motion.button
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.92 }}
