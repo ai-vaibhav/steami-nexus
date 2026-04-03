@@ -270,8 +270,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(99, 179, 237, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(99, 179, 237, 0.4); }
+  0%, 100% { box-shadow: 0 0 5px rgba(111, 168, 255, 0.15); }
+  50% { box-shadow: 0 0 15px rgba(111, 168, 255, 0.25); }
 }
 
 @keyframes shimmer {
