@@ -86,7 +86,7 @@ export function TextSelectionPopover({ containerRef, source, sourceType, field }
               Diary
             </motion.button>
             <motion.button
-              whileHover={{ scale: 1.06, backgroundColor: 'rgba(99, 179, 237, 0.18)' }}
+              whileHover={{ scale: 1.06, backgroundColor: 'rgba(111, 168, 255, 0.15)' }}
               whileTap={{ scale: 0.94 }}
               onClick={() => {
                 setShow(false);
@@ -95,12 +95,48 @@ export function TextSelectionPopover({ containerRef, source, sourceType, field }
               className="flex items-center gap-1.5 rounded-lg px-3 py-2 font-mono text-[9px] tracking-wider uppercase transition-colors"
               style={{
                 color: 'hsl(var(--steami-cyan))',
-                border: '1px solid rgba(99, 179, 237, 0.2)',
-                background: 'rgba(99, 179, 237, 0.06)',
+                border: '1px solid rgba(111, 168, 255, 0.15)',
+                background: 'rgba(111, 168, 255, 0.05)',
               }}
             >
               <Sparkles className="w-3 h-3" />
               Feed
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => {
+                const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`"${selectedText}" — ${source}`)}&url=${encodeURIComponent(window.location.href)}`;
+                window.open(tweetUrl, '_blank');
+                setShow(false);
+                window.getSelection()?.removeAllRanges();
+              }}
+              className="flex items-center gap-1.5 rounded-lg px-2.5 py-2 font-mono text-[9px] tracking-wider uppercase transition-colors"
+              style={{
+                color: 'hsl(var(--steami-cyan))',
+                border: '1px solid rgba(111, 168, 255, 0.15)',
+                background: 'rgba(111, 168, 255, 0.05)',
+              }}
+            >
+              <Twitter className="w-3 h-3" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              onClick={async () => {
+                await navigator.clipboard.writeText(selectedText);
+                setCopied(true);
+                setTimeout(() => { setCopied(false); setShow(false); }, 1200);
+                window.getSelection()?.removeAllRanges();
+              }}
+              className="flex items-center gap-1.5 rounded-lg px-2.5 py-2 font-mono text-[9px] tracking-wider uppercase transition-colors"
+              style={{
+                color: copied ? 'hsl(var(--steami-gold))' : 'hsl(var(--muted-foreground))',
+                border: '1px solid rgba(111, 168, 255, 0.15)',
+                background: 'rgba(111, 168, 255, 0.05)',
+              }}
+            >
+              {copied ? <Check className="w-3 h-3" /> : <Link2 className="w-3 h-3" />}
             </motion.button>
           </div>
           {/* Arrow */}
