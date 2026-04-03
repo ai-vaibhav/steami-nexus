@@ -326,9 +326,9 @@
 /* Shimmer loading effect */
 .shimmer {
   background: linear-gradient(90deg,
-    rgba(99, 179, 237, 0.04) 25%,
-    rgba(99, 179, 237, 0.1) 50%,
-    rgba(99, 179, 237, 0.04) 75%);
+    rgba(111, 168, 255, 0.03) 25%,
+    rgba(111, 168, 255, 0.08) 50%,
+    rgba(111, 168, 255, 0.03) 75%);
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
 }
