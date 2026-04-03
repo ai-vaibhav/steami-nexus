@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSteamiStore } from '@/stores/steami-store';
-import { BookOpen, Sparkles } from 'lucide-react';
+import { BookOpen, Sparkles, Twitter, Link2, Check } from 'lucide-react';
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
