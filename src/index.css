@@ -337,8 +337,8 @@
 .steami-btn:focus-visible,
 .glass-card:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.5),
-              0 0 20px rgba(99, 179, 237, 0.15);
+  box-shadow: 0 0 0 2px rgba(111, 168, 255, 0.4),
+              0 0 15px rgba(111, 168, 255, 0.1);
 }
 
 /* Smooth link underline animation */
