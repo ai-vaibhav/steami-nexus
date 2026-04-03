@@ -163,12 +163,15 @@ export default function ExplainerPage() {
             variants={cardVariants}
             whileHover={cardHover}
             whileTap={cardTap}
-            className="glass-card relative p-6 cursor-pointer overflow-hidden"
+            className="glass-card relative p-6 cursor-pointer overflow-hidden group"
             onClick={() => openModal(idx)}
           >
-            <span className={`${badgeClass(exp.badgeColor)} text-[8px] mb-3 inline-block`}>
-              {exp.field}
-            </span>
+            <div className="flex items-start justify-between mb-3">
+              <span className={`${badgeClass(exp.badgeColor)} text-[8px] inline-block`}>
+                {exp.field}
+              </span>
+              <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
             <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
             <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{exp.subtitle}</p>
           </motion.div>
