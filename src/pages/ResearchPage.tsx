@@ -148,7 +148,9 @@ export default function ResearchPage() {
                 >
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className={`steami-badge steami-badge-${FIELD_COLORS[selectedArticle.field]}`}>{selectedArticle.field}</span>
-                    <span className="font-mono text-[9px] text-muted-foreground">{selectedArticle.readTime}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ShareMenu title={selectedArticle.title} compact />
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
