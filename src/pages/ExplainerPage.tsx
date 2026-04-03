@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { ShareMenu } from '@/components/ShareMenu';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb } from 'lucide-react';
@@ -67,7 +68,7 @@ export default function ExplainerPage() {
           onMouseEnter={() => setCarouselPaused(true)}
           onMouseLeave={() => setCarouselPaused(false)}
         >
-          <div className="relative overflow-hidden" style={{ minHeight: 220 }}>
+          <div className="relative overflow-hidden" style={{ minHeight: 320 }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={carouselIdx}
@@ -83,7 +84,7 @@ export default function ExplainerPage() {
                     <motion.div
                       whileHover={cardHover}
                       whileTap={cardTap}
-                      className="glass-card relative p-7 cursor-pointer overflow-hidden"
+                      className="glass-card relative p-8 cursor-pointer overflow-hidden"
                       onClick={() => openModal(carouselIdx)}
                     >
                       <motion.div
@@ -93,12 +94,15 @@ export default function ExplainerPage() {
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 0.5 }}
                       />
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        <span className={`${badgeClass(exp.badgeColor)} text-[9px]`}>{exp.field}</span>
-                        <span className="steami-badge steami-badge-gold text-[9px]">FEATURED</span>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex flex-wrap gap-2">
+                          <span className={`${badgeClass(exp.badgeColor)} text-[9px]`}>{exp.field}</span>
+                          <span className="steami-badge steami-badge-gold text-[9px]">FEATURED</span>
+                        </div>
+                        <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <h3 className="font-serif text-lg md:text-xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
-                      <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-4 max-w-2xl">{exp.subtitle}</p>
+                      <h3 className="font-serif text-xl md:text-2xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
+                      <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-6 max-w-2xl">{exp.subtitle}</p>
                       <div className="flex items-center justify-end">
                         <span className="font-mono text-[9px] text-steami-cyan tracking-wider uppercase">Click to read →</span>
                       </div>
@@ -159,12 +163,15 @@ export default function ExplainerPage() {
             variants={cardVariants}
             whileHover={cardHover}
             whileTap={cardTap}
-            className="glass-card relative p-6 cursor-pointer overflow-hidden"
+            className="glass-card relative p-6 cursor-pointer overflow-hidden group"
             onClick={() => openModal(idx)}
           >
-            <span className={`${badgeClass(exp.badgeColor)} text-[8px] mb-3 inline-block`}>
-              {exp.field}
-            </span>
+            <div className="flex items-start justify-between mb-3">
+              <span className={`${badgeClass(exp.badgeColor)} text-[8px] inline-block`}>
+                {exp.field}
+              </span>
+              <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
             <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
             <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{exp.subtitle}</p>
           </motion.div>
@@ -205,6 +212,7 @@ export default function ExplainerPage() {
                   <span className={badgeClass(selected.badgeColor)}>{selected.field}</span>
                 </div>
                 <div className="flex items-center gap-2">
+                  <ShareMenu title={selected.title} compact />
                   <motion.button
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.92 }}
