@@ -84,7 +84,7 @@ export default function ExplainerPage() {
                     <motion.div
                       whileHover={cardHover}
                       whileTap={cardTap}
-                      className="glass-card relative p-7 cursor-pointer overflow-hidden"
+                      className="glass-card relative p-8 cursor-pointer overflow-hidden"
                       onClick={() => openModal(carouselIdx)}
                     >
                       <motion.div
