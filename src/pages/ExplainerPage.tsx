@@ -68,7 +68,7 @@ export default function ExplainerPage() {
           onMouseEnter={() => setCarouselPaused(true)}
           onMouseLeave={() => setCarouselPaused(false)}
         >
-          <div className="relative overflow-hidden" style={{ minHeight: 220 }}>
+          <div className="relative overflow-hidden" style={{ minHeight: 320 }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={carouselIdx}
