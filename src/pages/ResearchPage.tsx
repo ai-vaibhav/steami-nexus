@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { ShareMenu } from '@/components/ShareMenu';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Article } from '@/data/research-articles';
 import { useSteamiStore } from '@/stores/steami-store';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
