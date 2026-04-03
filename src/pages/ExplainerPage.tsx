@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { ShareMenu } from '@/components/ShareMenu';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb } from 'lucide-react';
