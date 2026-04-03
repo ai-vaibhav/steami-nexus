@@ -79,9 +79,9 @@
   body {
     background: var(--steami-bg);
     background-image:
-      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(20, 50, 120, 0.45) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(10, 30, 80, 0.35) 0%, transparent 55%),
-      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(5, 20, 55, 0.2) 0%, transparent 70%);
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(15, 40, 100, 0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(8, 24, 65, 0.25) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(5, 16, 45, 0.15) 0%, transparent 70%);
     color: hsl(var(--foreground));
     font-family: var(--font-sans);
     min-height: 100vh;
