@@ -100,7 +100,7 @@
 
   .glass-card:hover {
     background: var(--steami-glass-bg-hover);
-    border-color: rgba(99, 179, 237, 0.38);
+    border-color: rgba(111, 168, 255, 0.28);
   }
 
   .glass-card::after {
