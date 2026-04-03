@@ -51,14 +51,15 @@ function CategorySlider({ field, onSelect }: { field: typeof FIELDS[number]; onS
               transition={{ delay: idx * 0.05 }}
               whileHover={cardHover}
               whileTap={cardTap}
-              className="glass-card relative p-6 cursor-pointer overflow-hidden shrink-0 snap-start"
+              className="glass-card relative p-6 cursor-pointer overflow-hidden shrink-0 snap-start group"
               style={{ width: 300 }}
               onClick={() => onSelect(article)}
             >
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center justify-between mb-3">
                 <span className={`steami-badge steami-badge-${FIELD_COLORS[article.field]} text-[8px]`}>
                   {article.field}
                 </span>
+                <ShareMenu title={article.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{article.title}</h3>
               <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3">{article.abstract}</p>
