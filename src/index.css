@@ -143,7 +143,7 @@
   .steami-badge-cyan {
     border-color: hsl(var(--steami-cyan));
     color: hsl(var(--steami-cyan));
-    background: rgba(99, 179, 237, 0.08);
+    background: rgba(111, 168, 255, 0.08);
   }
 
   .steami-badge-gold {
