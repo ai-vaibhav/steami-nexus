@@ -280,8 +280,8 @@
 }
 
 @keyframes glow-border {
-  0%, 100% { border-color: rgba(99, 179, 237, 0.2); }
-  50% { border-color: rgba(99, 179, 237, 0.45); }
+  0%, 100% { border-color: rgba(111, 168, 255, 0.14); }
+  50% { border-color: rgba(111, 168, 255, 0.3); }
 }
 
 /* ── Micro-interaction utilities ──────────────────────────────── */
