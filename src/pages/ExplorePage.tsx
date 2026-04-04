@@ -3,18 +3,10 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { ShareMenu } from '@/components/ShareMenu';
+import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { explainers, Explainer } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, fadeInUp } from '@/lib/motion';
 import { ArrowLeft, Search, Layers } from 'lucide-react';
-
-const fieldColors: Record<string, string> = {
-  'QUANTUM PHYSICS': 'cyan',
-  'BIOLOGY': 'green',
-  'AI': 'violet',
-  'EARTH & SPACE': 'orange',
-  'CLIMATE & ENERGY': 'gold',
-  'COMPUTER SCIENCE': 'red',
-};
 
 const allFields = ['ALL', ...Array.from(new Set(explainers.map((e) => e.field)))];
 
@@ -43,6 +35,8 @@ export default function ExplorePage() {
 
   return (
     <SteamiLayout>
+      <ScrollNavigator />
+
       {/* Header */}
       <motion.div className="mb-8" variants={fadeInUp} initial="hidden" animate="visible">
         <button
@@ -68,9 +62,7 @@ export default function ExplorePage() {
         animate="visible"
       >
         {/* Search */}
-        <div
-          className="relative flex-1 max-w-sm"
-        >
+        <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
           <input
             value={search}
@@ -149,6 +141,7 @@ function ExploreCard({ exp, idx, onClick }: { exp: Explainer; idx: number; onCli
       whileHover={cardHover}
       whileTap={cardTap}
       className="glass-card relative p-0 cursor-pointer overflow-hidden group"
+      style={{ minHeight: 240 }}
       onClick={onClick}
     >
       {/* Top accent bar */}
@@ -159,7 +152,7 @@ function ExploreCard({ exp, idx, onClick }: { exp: Explainer; idx: number; onCli
         }}
       />
 
-      <div className="p-5 pb-4">
+      <div className="p-6">
         {/* Header row */}
         <div className="flex items-start justify-between mb-3">
           <span className={`steami-badge steami-badge-${exp.badgeColor} text-[8px]`}>
