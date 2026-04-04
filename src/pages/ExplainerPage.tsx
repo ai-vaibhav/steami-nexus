@@ -5,6 +5,7 @@ import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
 import { ShareMenu } from '@/components/ShareMenu';
+import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
 import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb, ArrowRight } from 'lucide-react';
@@ -21,7 +22,6 @@ export default function ExplainerPage() {
   const [carouselPaused, setCarouselPaused] = useState(false);
   const featuredCount = Math.min(explainers.length, 6);
 
-  // Handle ?open= query param from ExplorePage
   useEffect(() => {
     const openId = searchParams.get('open');
     if (openId) {
@@ -66,6 +66,8 @@ export default function ExplainerPage() {
 
   return (
     <SteamiLayout>
+      <ScrollNavigator />
+
       <motion.div className="mb-8" variants={fadeInUp} initial="hidden" animate="visible">
         <h1 className="steami-heading text-3xl md:text-4xl mb-3">
           🧠 Intelligence Explainers
@@ -166,7 +168,7 @@ export default function ExplainerPage() {
       {/* Grid of All Explainers */}
       <div className="steami-section-label mb-4">ALL EXPLAINERS</div>
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
@@ -178,17 +180,35 @@ export default function ExplainerPage() {
             variants={cardVariants}
             whileHover={cardHover}
             whileTap={cardTap}
-            className="glass-card relative p-6 cursor-pointer overflow-hidden group"
+            className="glass-card relative p-0 cursor-pointer overflow-hidden group"
+            style={{ minHeight: 240 }}
             onClick={() => openModal(idx)}
           >
-            <div className="flex items-start justify-between mb-3">
-              <span className={`${badgeClass(exp.badgeColor)} text-[8px] inline-block`}>
-                {exp.field}
-              </span>
-              <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
+            {/* Top accent bar */}
+            <div
+              className="h-[2px] w-full"
+              style={{
+                background: `linear-gradient(90deg, hsl(var(--steami-${exp.badgeColor})) 0%, transparent 100%)`,
+              }}
+            />
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-3">
+                <span className={`${badgeClass(exp.badgeColor)} text-[8px] inline-block`}>
+                  {exp.field}
+                </span>
+                <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
+              <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{exp.subtitle}</p>
+              <div className="flex items-center justify-between pt-3 border-t border-foreground/5">
+                <span className="text-[9px] font-mono text-muted-foreground/60 tracking-wider">
+                  {exp.keyInsights.length} INSIGHTS · {exp.content.length} SLIDES
+                </span>
+                <span className="text-[9px] font-mono text-steami-cyan tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                  Read →
+                </span>
+              </div>
             </div>
-            <h3 className="font-serif text-sm font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
-            <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-2">{exp.subtitle}</p>
           </motion.div>
         ))}
       </motion.div>
