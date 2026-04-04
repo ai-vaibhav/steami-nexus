@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
 import { ShareMenu } from '@/components/ShareMenu';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
-import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb, ArrowRight } from 'lucide-react';
 
 export default function ExplainerPage() {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
