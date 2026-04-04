@@ -193,6 +193,24 @@ export default function ExplainerPage() {
         ))}
       </motion.div>
 
+      {/* Explore More Button */}
+      <motion.div
+        className="flex justify-center mt-10 mb-4"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.button
+          whileHover={{ scale: 1.04, y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/explore')}
+          className="steami-btn py-3 px-8 text-[11px] tracking-wider flex items-center gap-2.5 group"
+        >
+          EXPLORE ALL INTELLIGENCE
+          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+        </motion.button>
+      </motion.div>
+
       {/* Slideshow Modal */}
       <AnimatePresence>
         {selected && (
