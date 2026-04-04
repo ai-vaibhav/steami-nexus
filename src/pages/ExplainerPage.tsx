@@ -10,6 +10,8 @@ import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, mo
 import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb, ArrowRight } from 'lucide-react';
 
 export default function ExplainerPage() {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
@@ -18,6 +20,18 @@ export default function ExplainerPage() {
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(false);
   const featuredCount = Math.min(explainers.length, 6);
+
+  // Handle ?open= query param from ExplorePage
+  useEffect(() => {
+    const openId = searchParams.get('open');
+    if (openId) {
+      const idx = explainers.findIndex((e) => e.id === openId);
+      if (idx !== -1) {
+        openModal(idx);
+      }
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams]);
 
   const selected = selectedIdx !== null ? explainers[selectedIdx] : null;
 
