@@ -204,8 +204,13 @@ export default function ExplainerPage() {
                 </span>
                 <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
-              <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{exp.subtitle}</p>
+              <div className="flex items-start gap-3">
+                <div className="flex-1">
+                  <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
+                  <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{exp.subtitle}</p>
+                </div>
+                <CardSvgVisual field={exp.field} variant="mini" className="hidden sm:flex mt-0.5" />
+              </div>
               <div className="flex items-center justify-between pt-3 border-t border-foreground/5">
                 <span className="text-[9px] font-mono text-muted-foreground/60 tracking-wider">
                   {exp.keyInsights.length} INSIGHTS · {exp.content.length} SLIDES
