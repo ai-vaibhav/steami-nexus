@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { CardSvgVisual } from '@/components/CardSvgVisual';
 import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Article, type Field } from '@/data/research-articles';
@@ -185,8 +186,13 @@ function CategorySection({ field, items, onSelect }: { field: Field; items: Arti
                   </span>
                   <ShareMenu title={article.title} compact className="opacity-0 group-hover/card:opacity-100 transition-opacity" />
                 </div>
-                <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{article.title}</h3>
-                <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{article.abstract}</p>
+                <div className="flex items-start gap-3">
+                  <div className="flex-1">
+                    <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{article.title}</h3>
+                    <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{article.abstract}</p>
+                  </div>
+                  <CardSvgVisual field={article.field} variant="mini" className="hidden sm:flex mt-0.5" />
+                </div>
                 <div className="flex items-center justify-between pt-3 border-t border-foreground/5">
                   <span className="text-[9px] font-mono text-muted-foreground/60 tracking-wider">
                     {article.author} · {article.readTime}
@@ -312,14 +318,15 @@ function ArticleModal({
               ))}
             </motion.div>
 
-            <motion.h2
-              className="steami-heading text-2xl mb-2"
+            <motion.div
+              className="flex items-start gap-4 mb-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
             >
-              {article.title}
-            </motion.h2>
+              <h2 className="steami-heading text-2xl flex-1">{article.title}</h2>
+              <CardSvgVisual field={article.field} variant="modal" className="hidden sm:flex" />
+            </motion.div>
             <div className="flex items-center gap-3 mb-5 font-mono text-[10px] text-muted-foreground">
               <span>{article.author}</span>
               <span>·</span>
