@@ -308,7 +308,10 @@ export default function ExplainerPage() {
 
                 <div className="flex flex-col-reverse md:flex-row gap-6">
                   <div className="flex-1">
-                    <h2 className="steami-heading text-2xl mb-5">{selected.title}</h2>
+                    <div className="flex items-start gap-4 mb-5">
+                      <h2 className="steami-heading text-2xl flex-1">{selected.title}</h2>
+                      <CardSvgVisual field={selected.field} variant="modal" className="hidden sm:flex" />
+                    </div>
 
                     {/* Slide Progress */}
                     <div className="flex gap-1 mb-6">
