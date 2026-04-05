@@ -119,8 +119,13 @@ export default function ExplainerPage() {
                         </div>
                         <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <h3 className="font-serif text-xl md:text-2xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
-                      <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-6 max-w-2xl">{exp.subtitle}</p>
+                      <div className="flex items-start gap-5">
+                        <div className="flex-1">
+                          <h3 className="font-serif text-xl md:text-2xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
+                          <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-6 max-w-2xl">{exp.subtitle}</p>
+                        </div>
+                        <CardSvgVisual field={exp.field} variant="featured" className="hidden sm:flex mt-1" />
+                      </div>
                       <div className="flex items-center justify-end">
                         <span className="font-mono text-[9px] text-steami-cyan tracking-wider uppercase">Click to read →</span>
                       </div>
