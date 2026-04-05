@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { CardSvgVisual } from '@/components/CardSvgVisual';
 import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Article, type Field } from '@/data/research-articles';
