@@ -362,6 +362,13 @@
   transform: scaleX(1);
 }
 
+/* SVG micro-animation keyframes */
+@keyframes svg-pulse { 0%,100%{opacity:.35} 50%{opacity:.8} }
+@keyframes svg-rotate { to{transform:rotate(360deg)} }
+@keyframes svg-dash { to{stroke-dashoffset:0} }
+@keyframes svg-orbit { to{transform:rotate(360deg)} }
+@keyframes svg-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .glass-card,
@@ -370,4 +377,5 @@
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+  [class*="svg-"] { animation: none !important; }
 }

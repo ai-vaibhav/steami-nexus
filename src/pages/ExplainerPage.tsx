@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { CardSvgVisual } from '@/components/CardSvgVisual';
 import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { explainers } from '@/data/explainers';
