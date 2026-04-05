@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { TextSelectionPopover } from '@/components/TextSelectionPopover';
 import { KnowledgeGraph } from '@/components/KnowledgeGraph';
+import { CardSvgVisual } from '@/components/CardSvgVisual';
 import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { explainers } from '@/data/explainers';
@@ -118,8 +119,13 @@ export default function ExplainerPage() {
                         </div>
                         <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <h3 className="font-serif text-xl md:text-2xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
-                      <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-6 max-w-2xl">{exp.subtitle}</p>
+                      <div className="flex items-start gap-5">
+                        <div className="flex-1">
+                          <h3 className="font-serif text-xl md:text-2xl font-bold mb-3 leading-snug text-foreground">{exp.title}</h3>
+                          <p className="text-[13px] font-light text-muted-foreground leading-relaxed mb-6 max-w-2xl">{exp.subtitle}</p>
+                        </div>
+                        <CardSvgVisual field={exp.field} variant="featured" className="hidden sm:flex mt-1" />
+                      </div>
                       <div className="flex items-center justify-end">
                         <span className="font-mono text-[9px] text-steami-cyan tracking-wider uppercase">Click to read →</span>
                       </div>
@@ -198,8 +204,13 @@ export default function ExplainerPage() {
                 </span>
                 <ShareMenu title={exp.title} compact className="opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-              <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
-              <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{exp.subtitle}</p>
+              <div className="flex items-start gap-3">
+                <div className="flex-1">
+                  <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">{exp.title}</h3>
+                  <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">{exp.subtitle}</p>
+                </div>
+                <CardSvgVisual field={exp.field} variant="mini" className="hidden sm:flex mt-0.5" />
+              </div>
               <div className="flex items-center justify-between pt-3 border-t border-foreground/5">
                 <span className="text-[9px] font-mono text-muted-foreground/60 tracking-wider">
                   {exp.keyInsights.length} INSIGHTS · {exp.content.length} SLIDES
@@ -297,7 +308,10 @@ export default function ExplainerPage() {
 
                 <div className="flex flex-col-reverse md:flex-row gap-6">
                   <div className="flex-1">
-                    <h2 className="steami-heading text-2xl mb-5">{selected.title}</h2>
+                    <div className="flex items-start gap-4 mb-5">
+                      <h2 className="steami-heading text-2xl flex-1">{selected.title}</h2>
+                      <CardSvgVisual field={selected.field} variant="modal" className="hidden sm:flex" />
+                    </div>
 
                     {/* Slide Progress */}
                     <div className="flex gap-1 mb-6">

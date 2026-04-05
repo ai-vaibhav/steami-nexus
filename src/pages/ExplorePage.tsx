@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
+import { CardSvgVisual } from '@/components/CardSvgVisual';
 import { explainers, Explainer } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, fadeInUp } from '@/lib/motion';
 import { ArrowLeft, Search, Layers } from 'lucide-react';
@@ -162,14 +163,17 @@ function ExploreCard({ exp, idx, onClick }: { exp: Explainer; idx: number; onCli
         </div>
 
         {/* Title */}
-        <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">
-          {exp.title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">
-          {exp.subtitle}
-        </p>
+        <div className="flex items-start gap-3">
+          <div className="flex-1">
+            <h3 className="font-serif text-[15px] font-bold mb-2 leading-snug text-foreground">
+              {exp.title}
+            </h3>
+            <p className="text-[11px] font-light text-muted-foreground leading-relaxed line-clamp-3 mb-4">
+              {exp.subtitle}
+            </p>
+          </div>
+          <CardSvgVisual field={exp.field} variant="mini" className="hidden sm:flex mt-0.5" />
+        </div>
 
         {/* Footer: insights count + CTA */}
         <div className="flex items-center justify-between pt-3 border-t border-foreground/5">
