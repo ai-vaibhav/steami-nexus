@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { SteamiLayout } from '@/components/SteamiLayout';
 import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
+import { CardSvgVisual } from '@/components/CardSvgVisual';
 import { explainers, Explainer } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, fadeInUp } from '@/lib/motion';
 import { ArrowLeft, Search, Layers } from 'lucide-react';
