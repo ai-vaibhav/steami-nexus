@@ -318,14 +318,15 @@ function ArticleModal({
               ))}
             </motion.div>
 
-            <motion.h2
-              className="steami-heading text-2xl mb-2"
+            <motion.div
+              className="flex items-start gap-4 mb-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
             >
-              {article.title}
-            </motion.h2>
+              <h2 className="steami-heading text-2xl flex-1">{article.title}</h2>
+              <CardSvgVisual field={article.field} variant="modal" className="hidden sm:flex" />
+            </motion.div>
             <div className="flex items-center gap-3 mb-5 font-mono text-[10px] text-muted-foreground">
               <span>{article.author}</span>
               <span>·</span>
