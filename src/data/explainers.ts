@@ -5,8 +5,12 @@ export interface Explainer {
   field: string;
   badgeColor: string;
   readTime: string;
+  author?: string;
   content: string[];
   keyInsights: string[];
+  context?: string;
+  technicalDetail?: string;
+  impact?: string;
 }
 
 export const explainers: Explainer[] = [
@@ -17,6 +21,7 @@ export const explainers: Explainer[] = [
     field: 'QUANTUM PHYSICS',
     badgeColor: 'cyan',
     readTime: '8 MIN READ',
+    author: 'Dr. Elena Voss',
     content: [
       'Imagine a dog inside a sealed kennel. According to quantum mechanics, until you open the door and observe the dog, it exists in a superposition of all possible states — sleeping, playing, barking, and eating simultaneously.',
       'This thought experiment, inspired by Schrödinger\'s famous cat paradox, illustrates one of the most counterintuitive aspects of quantum mechanics: superposition. In the quantum world, particles don\'t have definite properties until they\'re measured.',
@@ -31,6 +36,9 @@ export const explainers: Explainer[] = [
       'Quantum decoherence prevents macroscopic superposition',
       'Quantum computers leverage superposition for exponential speedup',
     ],
+    context: 'Schrödinger\'s thought experiment was first proposed in 1935 as a critique of the Copenhagen interpretation of quantum mechanics. It was designed to highlight the absurdity of applying quantum rules to everyday objects — yet decades later, experiments have confirmed superposition at increasingly large scales, from molecules to vibrating drumheads.',
+    technicalDetail: 'The wave function Ψ encodes all possible measurement outcomes as probability amplitudes. When a measurement is made, the system "collapses" into one eigenstate with probability |⟨ψ|ϕ⟩|². Decoherence timescales for macroscopic objects are on the order of 10⁻³⁹ seconds, making real-world superposition of large objects effectively impossible without extreme isolation.',
+    impact: 'Quantum superposition underpins the entire quantum computing revolution. Companies like IBM, Google, and startups such as IonQ are racing to build fault-tolerant quantum computers that could transform drug discovery, cryptography, and materials science within the next decade.',
   },
   {
     id: 'crispr-scissors',
@@ -39,6 +47,7 @@ export const explainers: Explainer[] = [
     field: 'BIOLOGY',
     badgeColor: 'green',
     readTime: '7 MIN READ',
+    author: 'Prof. Amara Osei',
     content: [
       'CRISPR-Cas9 is a revolutionary gene-editing tool that allows scientists to cut, delete, and replace DNA sequences with unprecedented precision. Think of it as molecular scissors guided by a GPS.',
       'The technology was adapted from a natural defense system that bacteria use to fight viruses. When a virus attacks, bacteria capture snippets of viral DNA and store them as "memory" to recognize future threats.',
@@ -53,6 +62,9 @@ export const explainers: Explainer[] = [
       'Already treating sickle cell disease in clinical trials',
       'Raises critical ethical questions about human germline editing',
     ],
+    context: 'The CRISPR system was first observed in bacteria in 1987 by Japanese researchers, but its function as an adaptive immune system wasn\'t understood until 2007. The pivotal 2012 paper by Doudna and Charpentier demonstrated that Cas9 could be programmed with guide RNA to cut any DNA sequence, unlocking its potential as a universal editing tool.',
+    technicalDetail: 'CRISPR-Cas9 uses a guide RNA (gRNA) of ~20 nucleotides to direct the Cas9 endonuclease to a complementary DNA target adjacent to a PAM sequence (NGG for SpCas9). The enzyme creates a double-strand break, which the cell repairs via NHEJ (causing insertions/deletions) or HDR (allowing precise edits when a template is provided). Off-target effects remain a key concern, with newer high-fidelity Cas9 variants reducing unintended cuts.',
+    impact: 'The first CRISPR-based therapy, Casgevy, was approved by the FDA in December 2023 for sickle cell disease. The global CRISPR therapeutics market is projected to exceed $10 billion by 2030, with applications spanning agriculture, livestock, biofuels, and disease eradication.',
   },
   {
     id: 'neural-networks',
@@ -61,6 +73,7 @@ export const explainers: Explainer[] = [
     field: 'AI',
     badgeColor: 'violet',
     readTime: '10 MIN READ',
+    author: 'Dr. Kai Zhang',
     content: [
       'Artificial neural networks are computing systems inspired by the biological neural networks in animal brains. They learn by adjusting the strength of connections between artificial neurons.',
       'The simplest neural network, the perceptron, was invented in 1958. It could only solve linearly separable problems — a limitation that almost killed the field for decades.',
@@ -75,6 +88,9 @@ export const explainers: Explainer[] = [
       'Transformers replaced recurrence with attention for massive parallelism',
       'Modern models demonstrate emergent capabilities at scale',
     ],
+    context: 'The "AI winters" of the 1970s and 1990s nearly ended neural network research. The resurgence began in 2012 when AlexNet — a deep CNN trained on GPUs — won the ImageNet competition by a dramatic margin. This moment marked the beginning of the deep learning revolution that now powers everything from voice assistants to autonomous vehicles.',
+    technicalDetail: 'A transformer processes input tokens through multi-head self-attention layers, where each token attends to every other token via scaled dot-product attention: Attention(Q,K,V) = softmax(QKᵀ/√dₖ)V. This enables O(1) sequential operations compared to O(n) for RNNs, allowing training on massive corpora. Modern LLMs use billions of parameters with techniques like rotary positional embeddings, grouped-query attention, and mixture-of-experts for efficient scaling.',
+    impact: 'Large language models are reshaping every industry: automated code generation saves developers hours daily, AI copilots assist in medical diagnosis, and generative AI is projected to add $4.4 trillion annually to the global economy according to McKinsey. The race for artificial general intelligence continues to accelerate.',
   },
   {
     id: 'dark-energy',
@@ -83,6 +99,7 @@ export const explainers: Explainer[] = [
     field: 'EARTH & SPACE',
     badgeColor: 'orange',
     readTime: '6 MIN READ',
+    author: 'Dr. Lena Petrova',
     content: [
       'In 1998, two teams of astronomers made a shocking discovery: the universe is not just expanding — it\'s accelerating. Something was pushing galaxies apart faster and faster.',
       'This mysterious force was named "dark energy." Despite constituting about 68% of the total energy of the universe, we know almost nothing about what it actually is.',
@@ -97,6 +114,9 @@ export const explainers: Explainer[] = [
       'The cosmological constant is the leading theoretical explanation',
       'The fate of the universe depends on dark energy\'s behavior over time',
     ],
+    context: 'The 1998 discovery by the Supernova Cosmology Project and the High-z Supernova Search Team earned Saul Perlmutter, Brian Schmidt, and Adam Riess the 2011 Nobel Prize in Physics. They measured Type Ia supernovae — "standard candles" — and found that distant explosions were dimmer than expected, proving accelerated expansion.',
+    technicalDetail: 'Dark energy is characterized by its equation of state parameter w = P/ρ, where P is pressure and ρ is energy density. For a cosmological constant, w = −1 exactly. Current observations constrain w to −1.03 ± 0.03, consistent with Λ but not ruling out evolving dark energy. The DESI (Dark Energy Spectroscopic Instrument) 2024 results hint at possible time variation in w, which would rule out a simple cosmological constant.',
+    impact: 'Understanding dark energy could revolutionize fundamental physics. If dark energy evolves over time, it would require entirely new physics beyond general relativity. The Euclid mission (launched 2023) and the Vera Rubin Observatory will map billions of galaxies to constrain dark energy models with unprecedented precision over the next decade.',
   },
   {
     id: 'fusion-energy',
@@ -105,6 +125,7 @@ export const explainers: Explainer[] = [
     field: 'CLIMATE & ENERGY',
     badgeColor: 'gold',
     readTime: '9 MIN READ',
+    author: 'Dr. Marcus Chen',
     content: [
       'Nuclear fusion powers every star in the universe. By fusing hydrogen atoms into helium at extreme temperatures and pressures, stars release enormous amounts of energy according to E=mc².',
       'Recreating this process on Earth requires heating hydrogen plasma to over 100 million degrees Celsius — ten times hotter than the core of the sun. No material can contain such plasma.',
@@ -119,6 +140,9 @@ export const explainers: Explainer[] = [
       'Multiple private companies target commercial fusion by the 2030s',
       'Fusion fuel (deuterium) is essentially unlimited from seawater',
     ],
+    context: 'The quest for fusion energy has spanned over 70 years, beginning with the hydrogen bomb tests of the 1950s. The international ITER project in southern France, involving 35 nations, aims to demonstrate net energy gain from magnetic confinement fusion by the late 2030s, though the project has faced significant delays and cost overruns.',
+    technicalDetail: 'Fusion requires overcoming the Coulomb barrier between positively charged nuclei. The D-T (deuterium-tritium) reaction has the lowest ignition temperature at ~100 million K and produces a 14.1 MeV neutron plus a 3.5 MeV alpha particle. The Lawson criterion defines the conditions for net energy gain: nτE > 10²⁰ s/m³, where n is plasma density and τE is energy confinement time. High-temperature superconducting magnets (HTS) using REBCO tape enable compact, high-field tokamaks.',
+    impact: 'Commercial fusion would transform the global energy landscape. A single fusion plant could power a city with fuel from a bathtub of seawater. The fusion industry has attracted over $6 billion in private investment, with Commonwealth Fusion Systems targeting a pilot plant (SPARC) by 2025 and a commercial plant (ARC) by the early 2030s.',
   },
   {
     id: 'blockchain-consensus',
@@ -127,6 +151,7 @@ export const explainers: Explainer[] = [
     field: 'COMPUTER SCIENCE',
     badgeColor: 'red',
     readTime: '7 MIN READ',
+    author: 'Prof. Sara Nakamoto',
     content: [
       'The fundamental challenge of distributed systems is the Byzantine Generals Problem: how can multiple parties agree on a course of action when some may be unreliable or malicious?',
       'Blockchain solves this through consensus mechanisms — protocols that allow a network of computers to agree on the state of a shared ledger without trusting any single participant.',
@@ -141,6 +166,9 @@ export const explainers: Explainer[] = [
       'Multiple novel mechanisms offer different performance tradeoffs',
       'Applications extend far beyond cryptocurrency',
     ],
+    context: 'The Byzantine Generals Problem was formally described by Lamport, Shostak, and Pease in 1982. Satoshi Nakamoto\'s 2008 Bitcoin whitepaper provided the first practical solution using Proof of Work, enabling a trustless peer-to-peer electronic cash system that has since grown into a trillion-dollar asset class.',
+    technicalDetail: 'PoW security relies on the assumption that no single entity controls >50% of network hash rate. The difficulty adjusts every 2,016 blocks (~2 weeks) to maintain ~10-minute block times. PoS replaces computational work with economic stake: validators are selected pseudo-randomly weighted by their stake, and slashing conditions penalize dishonest behavior. Ethereum\'s Casper FFG achieves finality through a two-round voting process with a 2/3 supermajority requirement.',
+    impact: 'Decentralized consensus is enabling new forms of governance, finance (DeFi), and digital ownership (NFTs). Enterprise blockchain adoption is growing in supply chain management, cross-border payments, and digital identity. The total value locked in DeFi protocols has exceeded $100 billion, demonstrating real-world demand for trustless financial infrastructure.',
   },
   {
     id: 'epigenetics',
@@ -149,6 +177,7 @@ export const explainers: Explainer[] = [
     field: 'BIOLOGY',
     badgeColor: 'green',
     readTime: '8 MIN READ',
+    author: 'Dr. Hana Kimura',
     content: [
       'Your DNA sequence is fixed at birth, but how your genes are read is surprisingly flexible. Epigenetics studies chemical modifications that turn genes on and off without altering the underlying code.',
       'DNA methylation — attaching small methyl groups to DNA — is one of the most studied mechanisms. Heavy methylation silences a gene, while demethylation can reactivate it.',
@@ -163,6 +192,9 @@ export const explainers: Explainer[] = [
       'Some epigenetic changes pass across generations',
       'Epigenetic drugs are showing promise in cancer therapy',
     ],
+    context: 'Conrad Waddington coined the term "epigenetics" in 1942, but the molecular mechanisms weren\'t understood until the 1990s. The Dutch Hunger Winter study provided compelling evidence: children born during the 1944-45 famine showed epigenetic changes affecting metabolism that persisted for generations, demonstrating that environmental trauma could be biologically inherited.',
+    technicalDetail: 'DNA methylation occurs primarily at CpG dinucleotides, catalyzed by DNA methyltransferases (DNMTs). Methylation of promoter CpG islands typically silences transcription by recruiting methyl-CpG binding proteins that compact chromatin. Histone modifications include acetylation (H3K27ac — activating), methylation (H3K4me3 — activating; H3K27me3 — repressive), and phosphorylation. The "histone code" of combinatorial modifications creates a regulatory layer readable by chromatin remodeling complexes.',
+    impact: 'Five epigenetic drugs are currently FDA-approved for cancer treatment, including azacitidine and decitabine for myelodysplastic syndromes. The epigenetic diagnostics market is growing rapidly, with liquid biopsy tests using methylation patterns to detect cancers early. Understanding transgenerational epigenetic inheritance could reshape public health approaches to poverty, nutrition, and environmental exposure.',
   },
   {
     id: 'quantum-entanglement',
@@ -171,6 +203,7 @@ export const explainers: Explainer[] = [
     field: 'QUANTUM PHYSICS',
     badgeColor: 'cyan',
     readTime: '9 MIN READ',
+    author: 'Dr. Ravi Sharma',
     content: [
       'When two particles become entangled, measuring one instantly determines the state of the other — no matter how far apart they are. Einstein famously called this "spooky action at a distance."',
       'Entanglement is created when particles interact in specific ways — for example, splitting a photon into two via a nonlinear crystal produces a pair with correlated polarizations.',
@@ -185,6 +218,9 @@ export const explainers: Explainer[] = [
       'Quantum teleportation transfers states, not matter or energy',
       'Satellite-based entanglement spans over 1,200 km',
     ],
+    context: 'Einstein, Podolsky, and Rosen published their famous EPR paradox in 1935, arguing that quantum mechanics must be incomplete because entanglement seemed to violate locality. John Bell\'s 1964 inequality provided a testable prediction, and Alain Aspect\'s 1982 experiments confirmed quantum nonlocality. The 2022 Nobel Prize in Physics was awarded to Aspect, Clauser, and Zeilinger for their pioneering work on entanglement.',
+    technicalDetail: 'An entangled Bell state |Φ⁺⟩ = (|00⟩ + |11⟩)/√2 has the property that measuring one qubit in any basis instantly determines the outcome of measuring the partner in the same basis, with correlations exceeding the Bell inequality bound of 2 (quantum limit: 2√2 ≈ 2.83). Entanglement swapping enables teleportation: Alice and Bob share entangled pairs, Alice performs a Bell measurement on her particle and the teleported state, then sends 2 classical bits to Bob, who applies a correction to recover the state.',
+    impact: 'China\'s quantum satellite network (Micius) has demonstrated intercontinental QKD, and several countries are building quantum communication infrastructure. The quantum internet could enable unhackable communications, distributed quantum computing, and synchronized atomic clocks. Private companies like Toshiba, ID Quantique, and PsiQuantum are commercializing quantum networking technologies.',
   },
   {
     id: 'neuroplasticity',
@@ -193,6 +229,7 @@ export const explainers: Explainer[] = [
     field: 'BIOLOGY',
     badgeColor: 'green',
     readTime: '7 MIN READ',
+    author: 'Dr. Sofia Andersson',
     content: [
       'For most of the 20th century, scientists believed the adult brain was fixed. We now know it continually rewires itself — forming new connections, pruning unused ones, and even generating new neurons.',
       'Every time you learn a skill, synapses strengthen through a process called long-term potentiation (LTP). Repeated practice physically thickens the neural pathways involved.',
@@ -207,5 +244,8 @@ export const explainers: Explainer[] = [
       'Brain regions can compensate for damage through reorganization',
       'Both positive and negative experiences reshape brain structure',
     ],
+    context: 'The dogma of the "fixed adult brain" dominated neuroscience for over a century. Santiago Ramón y Cajal, the father of modern neuroscience, stated in 1928 that nerve paths were "fixed, ended, immutable." The paradigm shift began with Michael Merzenich\'s work in the 1980s showing that cortical maps reorganize after sensory changes, and was cemented by the discovery of adult neurogenesis in the hippocampus in the 1990s.',
+    technicalDetail: 'Long-term potentiation (LTP) involves NMDA receptor activation, calcium influx, and subsequent AMPA receptor insertion at the postsynaptic membrane, strengthening synaptic transmission. Structural plasticity includes dendritic spine growth (within hours of learning), axonal sprouting, and synaptogenesis. Adult neurogenesis occurs primarily in the subgranular zone of the hippocampal dentate gyrus and the subventricular zone, producing ~700 new neurons daily in the human hippocampus.',
+    impact: 'Neuroplasticity research has transformed rehabilitation medicine. Constraint-induced movement therapy (CIMT) forces use of stroke-affected limbs, driving cortical reorganization. Brain-computer interfaces (BCIs) leverage plasticity to help paralyzed patients control devices with thought. The mindfulness and cognitive training industries have grown into multi-billion dollar markets, though the transfer of training benefits to general cognition remains debated.',
   },
 ];
