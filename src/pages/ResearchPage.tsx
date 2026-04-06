@@ -9,6 +9,7 @@ import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Article, type Field } from '@/data/research-articles';
 import { useSteamiStore } from '@/stores/steami-store';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
+import { ContentMedia } from '@/components/ContentMedia';
 import { X, ChevronLeft, ChevronRight, Network, FileText, Sparkles, Search } from 'lucide-react';
 
 export default function ResearchPage() {
