@@ -334,6 +334,9 @@ function ArticleModal({
               <span>{article.readTime}</span>
             </div>
 
+            {/* Hero Image */}
+            <ContentMedia field={article.field} variant="hero" />
+
             {/* Abstract */}
             <motion.div
               initial={{ opacity: 0, x: -12 }}
