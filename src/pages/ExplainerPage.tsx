@@ -374,6 +374,9 @@ export default function ExplainerPage() {
                     ))}
                   </div>
 
+                  {/* Hero Image */}
+                  <ContentMedia field={selected.field} variant="hero" />
+
                   {/* Active Slide (Abstract-style) */}
                   <AnimatePresence mode="wait">
                     <motion.div
