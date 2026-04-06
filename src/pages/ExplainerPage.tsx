@@ -9,7 +9,6 @@ import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
-import { ContentMedia } from '@/components/ContentMedia';
 import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb, ArrowRight, Network, BookOpen, Cpu, Zap } from 'lucide-react';
 
 export default function ExplainerPage() {
@@ -374,9 +373,6 @@ export default function ExplainerPage() {
                     ))}
                   </div>
 
-                  {/* Hero Image */}
-                  <ContentMedia field={selected.field} variant="hero" />
-
                   {/* Active Slide (Abstract-style) */}
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -418,9 +414,6 @@ export default function ExplainerPage() {
                       NEXT <ChevronRight className="w-3 h-3" />
                     </motion.button>
                   </div>
-
-                  {/* Inline Image */}
-                  <ContentMedia field={selected.field} variant="inline" index={0} />
 
                   {/* Divider */}
                   <div className="h-px w-full mb-8" style={{ background: 'linear-gradient(90deg, transparent, rgba(99,179,237,0.15), transparent)' }} />
@@ -471,9 +464,6 @@ export default function ExplainerPage() {
                       <p className="text-[13px] font-light leading-relaxed text-foreground/80">{selected.impact}</p>
                     </motion.div>
                   )}
-
-                  {/* Video Embed */}
-                  <ContentMedia field={selected.field} variant="video" />
                 </div>
               </div>
 

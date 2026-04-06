@@ -9,7 +9,6 @@ import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { articles, FIELDS, FIELD_ICONS, FIELD_COLORS, type Article, type Field } from '@/data/research-articles';
 import { useSteamiStore } from '@/stores/steami-store';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
-import { ContentMedia } from '@/components/ContentMedia';
 import { X, ChevronLeft, ChevronRight, Network, FileText, Sparkles, Search } from 'lucide-react';
 
 export default function ResearchPage() {
@@ -334,9 +333,6 @@ function ArticleModal({
               <span>{article.readTime}</span>
             </div>
 
-            {/* Hero Image */}
-            <ContentMedia field={article.field} variant="hero" />
-
             {/* Abstract */}
             <motion.div
               initial={{ opacity: 0, x: -12 }}
@@ -348,24 +344,18 @@ function ArticleModal({
               {article.abstract}
             </motion.div>
 
-            {/* Content with inline media */}
+            {/* Content */}
             {article.content.map((para, i) => (
-              <div key={i}>
-                <motion.p
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25 + i * 0.05 }}
-                  className="text-[13px] font-light leading-relaxed text-foreground/80 mb-5"
-                >
-                  {para}
-                </motion.p>
-                {/* Insert inline image after 2nd paragraph */}
-                {i === 1 && <ContentMedia field={article.field} variant="inline" index={0} />}
-              </div>
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 + i * 0.05 }}
+                className="text-[13px] font-light leading-relaxed text-foreground/80 mb-5"
+              >
+                {para}
+              </motion.p>
             ))}
-
-            {/* Video Embed */}
-            <ContentMedia field={article.field} variant="video" />
 
             {/* Quotes */}
             {article.quotes.map((quote, i) => (
