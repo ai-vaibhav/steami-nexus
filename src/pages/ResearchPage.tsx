@@ -348,18 +348,24 @@ function ArticleModal({
               {article.abstract}
             </motion.div>
 
-            {/* Content */}
+            {/* Content with inline media */}
             {article.content.map((para, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.05 }}
-                className="text-[13px] font-light leading-relaxed text-foreground/80 mb-5"
-              >
-                {para}
-              </motion.p>
+              <div key={i}>
+                <motion.p
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 + i * 0.05 }}
+                  className="text-[13px] font-light leading-relaxed text-foreground/80 mb-5"
+                >
+                  {para}
+                </motion.p>
+                {/* Insert inline image after 2nd paragraph */}
+                {i === 1 && <ContentMedia field={article.field} variant="inline" index={0} />}
+              </div>
             ))}
+
+            {/* Video Embed */}
+            <ContentMedia field={article.field} variant="video" />
 
             {/* Quotes */}
             {article.quotes.map((quote, i) => (
