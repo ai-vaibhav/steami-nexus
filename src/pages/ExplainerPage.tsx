@@ -9,7 +9,7 @@ import { ShareMenu } from '@/components/ShareMenu';
 import { ScrollNavigator } from '@/components/ScrollNavigator';
 import { explainers } from '@/data/explainers';
 import { staggerContainer, cardVariants, cardHover, cardTap, overlayVariants, modalVariants, fadeInUp } from '@/lib/motion';
-import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, X, Lightbulb, ArrowRight, Network, BookOpen, Cpu, Zap } from 'lucide-react';
 
 export default function ExplainerPage() {
   const navigate = useNavigate();
