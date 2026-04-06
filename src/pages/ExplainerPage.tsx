@@ -471,6 +471,9 @@ export default function ExplainerPage() {
                       <p className="text-[13px] font-light leading-relaxed text-foreground/80">{selected.impact}</p>
                     </motion.div>
                   )}
+
+                  {/* Video Embed */}
+                  <ContentMedia field={selected.field} variant="video" />
                 </div>
               </div>
 
