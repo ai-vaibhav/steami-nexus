@@ -419,6 +419,9 @@ export default function ExplainerPage() {
                     </motion.button>
                   </div>
 
+                  {/* Inline Image */}
+                  <ContentMedia field={selected.field} variant="inline" index={0} />
+
                   {/* Divider */}
                   <div className="h-px w-full mb-8" style={{ background: 'linear-gradient(90deg, transparent, rgba(99,179,237,0.15), transparent)' }} />
 
